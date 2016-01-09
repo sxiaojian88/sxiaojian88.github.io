@@ -1,0 +1,416 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Sxiaojian">
+    <title>performSelector的总结 - Sxiaojian</title>
+    <meta name="author" content="Sxiaojian的博客">
+    
+        <link rel="icon" href="/assets/images/true">
+    
+    
+        <link rel="alternative" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="线程无关方法123- (id)performSelector:(SEL)aSelector;  - (id)performSelector:(SEL)aSelector withObject:(id)object;  - (id)performSelector:(SEL)aSelector withObject:(id)object1 withObject:(id)object2;
+这三个方法，均">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="performSelector的总结">
+<meta property="og:url" content="http://sxiaojian.com/2015/09/08/perform-selector/index.html">
+<meta property="og:site_name" content="Sxiaojian">
+<meta property="og:description" content="线程无关方法123- (id)performSelector:(SEL)aSelector;  - (id)performSelector:(SEL)aSelector withObject:(id)object;  - (id)performSelector:(SEL)aSelector withObject:(id)object1 withObject:(id)object2;
+这三个方法，均">
+<meta property="og:updated_time" content="2016-01-09T08:52:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="performSelector的总结">
+<meta name="twitter:description" content="线程无关方法123- (id)performSelector:(SEL)aSelector;  - (id)performSelector:(SEL)aSelector withObject:(id)object;  - (id)performSelector:(SEL)aSelector withObject:(id)object1 withObject:(id)object2;
+这三个方法，均">
+    
+    
+    
+        <meta property="og:image" content="/assets/images/cover.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style.min.css" type="text/css">
+    <!--STYLES END-->
+    <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?2fcacdd1025c71e8128c1eb7bf319be5";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Sxiaojian</a>
+    </h1>
+    
+        
+            <a  class="header-right-icon st-search-show-outputs"
+                href="/#search">
+        
+                <i class="fa fa-lg fa-search"></i>
+            </a>
+    
+</header>
+            <nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                
+                    <img class="sidebar-profile-picture" src="/assets/images/cover.jpg"/>
+                
+            </a>
+            <span class="sidebar-profile-name">Sxiaojian的博客</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archive</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="/#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:sunxiaojian@sxiaojian.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            performSelector的总结
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Tue Sep 08 2015 12:01:20 GMT+0800">
+	
+		    9月 08, 2015
+    	
+    </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <h2 id="线程无关方法">线程无关方法</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">-</span> (<span class="tag">id</span>)<span class="rule"><span class="attribute">performSelector</span>:<span class="value">(SEL)aSelector</span></span>;  </span><br><span class="line"><span class="tag">-</span> (<span class="tag">id</span>)<span class="rule"><span class="attribute">performSelector</span>:<span class="value">(SEL)aSelector withObject:(id)object</span></span>;  </span><br><span class="line"><span class="tag">-</span> (<span class="tag">id</span>)<span class="rule"><span class="attribute">performSelector</span>:<span class="value">(SEL)aSelector withObject:(id)object1 withObject:(id)object2</span></span>;</span><br></pre></td></tr></table></figure>
+<p>这三个方法，均为同步执行，与线程无关，主线程和子线程中均可调用。等同于直接调用该方法。在需要动态的去调用方法的时候去使用。<br>例如：[self performSelector:@selector(test2)];与[self test2];执行效果上完全相同。</p>
+<h2 id="Delayed_perform">Delayed perform</h2><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">- <span class="params">(void)</span>performSelector:<span class="params">(<span class="variable">SEL</span>)</span>aSelector withObject:<span class="params">(id)</span>anArgument afterDelay:<span class="params">(<span class="variable">NSTimeInterval</span>)</span>delay inModes:<span class="params">(<span class="variable">NSArray</span> *)</span>modes;</span><br><span class="line">- <span class="params">(void)</span>performSelector:<span class="params">(<span class="variable">SEL</span>)</span>aSelector withObject:<span class="params">(id)</span>anArgument afterDelay:<span class="params">(<span class="variable">NSTimeInterval</span>)</span>delay;</span></span><br></pre></td></tr></table></figure>
+<p>1、这两个方法为异步执行<br>2、这两个方法只能在主线程中执行，其它线程不执行<br>3、即使delay传参为0，也不会立即执行，而是在next runloop执行<br>4、可用于当点击UI中一个按钮会触发一个消耗系统性能的事件，在事件执行期间按钮会一直处于高亮状态，此时可以调用该方法去异步的处理该事件，就能避免上面的问题。  </p>
+<p>在方法未到执行时间之前，取消方法为</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="tag">void</span>)<span class="rule"><span class="attribute">cancelPreviousPerformRequestsWithTarget</span>:<span class="value">(id)aTarget selector:(SEL)aSelector object:(id)anArgument</span></span>;</span><br><span class="line">+ (<span class="tag">void</span>)<span class="rule"><span class="attribute">cancelPreviousPerformRequestsWithTarget</span>:<span class="value">(id)aTarget</span></span>;</span><br></pre></td></tr></table></figure>
+<h2 id="on_mainthread">on mainthread</h2><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">- <span class="params">(void)</span>performSelectorOnMainThread:<span class="params">(<span class="variable">SEL</span>)</span>aSelector withObject:<span class="params">(id)</span>arg waitUntilDone:<span class="params">(<span class="variable">BOOL</span>)</span>wait modes:<span class="params">(<span class="variable">NSArray</span> *)</span>array;</span><br><span class="line">- <span class="params">(void)</span>performSelectorOnMainThread:<span class="params">(<span class="variable">SEL</span>)</span>aSelector withObject:<span class="params">(id)</span>arg waitUntilDone:<span class="params">(<span class="variable">BOOL</span>)</span>wait;</span></span><br></pre></td></tr></table></figure>
+<p>1、这两个方法，在主线程和子线程中均可执行，均会在主线程中调aSelector方法<br>2、如果设置wait为NO:等待当前线程执行完以后，主线程才会执行aSelector方法；<br>3、设置为YES：不等待当前线程执行完，就在主线程上执行aSelector方法。<br>4、第二个方法使用默认的模式（NSDefaultRunLoopMode）。<br>有些人博客上的说法很多都是错误的，~~ 比如wait为YES是等待后执行、如果当前线程为主线程就马上执行 ~~。</p>
+<h2 id="参数">参数</h2><h4 id="直接使用perform方法参数要求是对象">直接使用perform方法参数要求是对象</h4><p>perform方法要求传入参数必须是对象，如果方法本身的参数是int，直接传NSNumber会导致得到的int参数不正确</p>
+<h4 id="传多个参数的解决方法">传多个参数的解决方法</h4><p>方法一</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>) anotherMethod &#123;</span><br><span class="line">     <span class="keyword">id</span> target = <span class="keyword">self</span>; </span><br><span class="line">     SEL selector = <span class="keyword">@selector</span>(methodWithFirst:second:third:); </span><br><span class="line">     <span class="comment">// 首先第一个参数和第二个参数是self和selector</span></span><br><span class="line">     <span class="comment">// 剩下的参数可以是对象或者基本数据类型，根据方法需要填写参数类型</span></span><br><span class="line">     <span class="keyword">typedef</span> <span class="keyword">void</span> (*MethodType)(<span class="keyword">id</span>, SEL, <span class="keyword">id</span>, <span class="keyword">id</span>, <span class="keyword">id</span>); </span><br><span class="line">     <span class="comment">// 这个方法实际上返回的是IMP类型，为了方便调用，强转为MethodType</span></span><br><span class="line">     MethodType methodToCall = (MethodType)[target methodForSelector:selector]; </span><br><span class="line">     methodToCall(target, selector, @(<span class="number">1</span>), @(<span class="number">2</span>), @(<span class="number">3</span>));</span><br><span class="line">      &#125; </span><br><span class="line">- (<span class="keyword">void</span>)methodWithFirst:(<span class="keyword">id</span>) object second:(<span class="keyword">id</span>) secondObject third:(<span class="keyword">id</span>) thirdObject &#123;</span><br><span class="line"> <span class="comment">// Code here </span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>方法二</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">SEL</span> selector = @selector(methodWithFirst:andSecond:andThird:);</span><br><span class="line">   <span class="type">NSMethodSignature</span> *signature = [self methodSignatureForSelector: selector];</span><br><span class="line">   <span class="type">NSInvocation</span> *invocation = [<span class="type">NSInvocation</span> invocationWithMethodSignature: signature];</span><br><span class="line"></span><br><span class="line">   [invocation setSelector: selector];</span><br><span class="line">   </span><br><span class="line">   [invocation setTarget: self];</span><br><span class="line">   //前两个参数为self与selector，其它参数要从<span class="number">2</span>开始</span><br><span class="line">   [invocation setArgument: &amp;first  atIndex: <span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">   [invocation setArgument: &amp;second atIndex: <span class="number">3</span>];</span><br><span class="line">   </span><br><span class="line">   [invocation setArgument: &amp;third  atIndex: <span class="number">4</span>];</span><br><span class="line">   </span><br><span class="line">   [invocation invoke];</span><br><span class="line"></span><br><span class="line">   [invocation getReturnValue: &amp;<span class="literal">result</span>];</span><br><span class="line"></span><br><span class="line">   <span class="type">NSLog</span>(@<span class="string">"NSInvocation      : %@"</span>, <span class="literal">result</span>);</span><br></pre></td></tr></table></figure>
+<p>使用category  </p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NSObject</span> (<span class="title">extend</span>)</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">id</span>)performSelector:(SEL)aSelector withObjects:(<span class="built_in">NSArray</span> *)objects;</span><br><span class="line">- (<span class="keyword">id</span>)performSelector:(SEL)aSelector withParameters:(<span class="keyword">void</span> *)firstParameter, ...;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">NSObject</span> (<span class="title">extend</span>)</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">id</span>)performSelector:(SEL)aSelector withObjects:(<span class="built_in">NSArray</span> *)objects &#123;</span><br><span class="line">    <span class="built_in">NSMethodSignature</span> *signature = [<span class="keyword">self</span> methodSignatureForSelector:aSelector];</span><br><span class="line">    <span class="built_in">NSInvocation</span> *invocation = [<span class="built_in">NSInvocation</span> invocationWithMethodSignature:signature];</span><br><span class="line">    [invocation setTarget:<span class="keyword">self</span>];</span><br><span class="line">    [invocation setSelector:aSelector];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSUInteger</span> i = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">id</span> object <span class="keyword">in</span> objects) &#123;</span><br><span class="line">        [invocation setArgument:(<span class="keyword">void</span> *)&amp;object atIndex:++i];</span><br><span class="line">    &#125;</span><br><span class="line">    [invocation invoke];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> ([signature methodReturnLength]) &#123;</span><br><span class="line">        <span class="keyword">id</span> data;</span><br><span class="line">        [invocation getReturnValue:&amp;data];</span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="keyword">id</span>)performSelector:(SEL)aSelector withParameters:(<span class="keyword">void</span> *)firstParameter, ... &#123;</span><br><span class="line">    <span class="built_in">NSMethodSignature</span> *signature = [<span class="keyword">self</span> methodSignatureForSelector:aSelector];</span><br><span class="line">    <span class="built_in">NSUInteger</span> length = [signature numberOfArguments];</span><br><span class="line">    <span class="built_in">NSInvocation</span> *invocation = [<span class="built_in">NSInvocation</span> invocationWithMethodSignature:signature];</span><br><span class="line">    [invocation setTarget:<span class="keyword">self</span>];</span><br><span class="line">    [invocation setSelector:aSelector];</span><br><span class="line">    </span><br><span class="line">    [invocation setArgument:&amp;firstParameter atIndex:<span class="number">2</span>];</span><br><span class="line">    va_list arg_ptr;</span><br><span class="line">    va_start(arg_ptr, firstParameter);</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">NSUInteger</span> i = <span class="number">3</span>; i &lt; length; ++i) &#123;</span><br><span class="line">        <span class="keyword">void</span> *parameter = va_arg(arg_ptr, <span class="keyword">void</span> *);</span><br><span class="line">        [invocation setArgument:&amp;parameter atIndex:i];</span><br><span class="line">    &#125;</span><br><span class="line">    va_end(arg_ptr);</span><br><span class="line">    </span><br><span class="line">    [invocation invoke];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> ([signature methodReturnLength]) &#123;</span><br><span class="line">        <span class="keyword">id</span> data;</span><br><span class="line">        [invocation getReturnValue:&amp;data];</span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>调用</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一个方法使用数组，所以不能传nil，必须传对象</span></span><br><span class="line">[self <span class="string">performSelector:</span><span class="annotation">@selector</span>(<span class="string">methodWithFirst:</span><span class="string">second:</span><span class="string">third:</span>) <span class="string">withObjects:</span>[NSArray <span class="string">arrayWithObjects:</span>@<span class="string">"1"</span>, @<span class="string">"2"</span>, @<span class="string">"3"</span>, nil]];</span><br><span class="line"><span class="comment">//第二个方法采用多个参数，可以传nil，必须传对象</span></span><br><span class="line">[self <span class="string">performSelector:</span><span class="annotation">@selector</span>(<span class="string">methodWithFirst:</span><span class="string">second:</span><span class="string">third:</span>) <span class="string">withParameters:</span>(<span class="typename">void</span> *)(@<span class="number">1</span>),nil,@<span class="number">3</span>];</span><br></pre></td></tr></table></figure>
+<h2 id="返回值">返回值</h2><p>在intel处理器中，obj_msgSend将方法的返回值存储在eax寄存器中。但是当方法返回结构体比如NSRect时，方法编译后为objc_msgSend_stret，这个方法将传递一个额外的参数：一个指向返回值内存的指针<br>苹果的官方文档说 </p>
+<blockquote>
+<p>For methods that return anything other than an object, use NSInvocation.  </p>
+</blockquote>
+<p>performSelector编译后使用objc_msgSend。如果返回值为结构体，本该使用objc_msgSend_stret却使用了objc_msgSend，就会导致崩溃。解释的不是很细致，请看原文</p>
+<blockquote>
+<p>Apple aren’t kidding when they mention this. This is because performSelector: uses objc_msgSend. If you use objc_msgSend to call a method that requires objc_msgSend_stret, the function will think the first parameter is the secret struct pointer, when in fact it’s the self pointer. When the function returns, it corrupts the memory pointed to by self by overwriting it with the return value. Next time you try to use the object, you get weird and wonderful crashes.<br>Only use performSelector: when the selector returns an object. If the selector returns a struct, then you risk corrupting memory, even if you don’t use the return value. If the method doesn’t return an object, then use NSInvocation instead, because it is capable of determining the correct message dispatch function to use.   </p>
+</blockquote>
+<p>只有方法返回值为对象或者无返回值是才使用performSelector:方法，其它情况使用NSInvocation代替。<br>下面这个category检查了返回值</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NSObject</span>(<span class="title">SafePerformSelector</span>) </span></span><br><span class="line">-(<span class="keyword">id</span>) performSelectorSafely:(SEL)aSelector; </span><br><span class="line"><span class="keyword">@end</span> </span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">NSObject</span>(<span class="title">SafePerformSelector</span>) </span></span><br><span class="line">-(<span class="keyword">id</span>) performSelectorSafely:(SEL)aSelector; </span><br><span class="line">&#123; </span><br><span class="line">    <span class="built_in">NSParameterAssert</span>(aSelector != <span class="literal">NULL</span>);   </span><br><span class="line">    <span class="built_in">NSParameterAssert</span>([<span class="keyword">self</span> respondsToSelector:aSelector]);</span><br><span class="line">     <span class="built_in">NSMethodSignature</span>* methodSig = [<span class="keyword">self</span> methodSignatureForSelector:aSelector]; </span><br><span class="line">     <span class="keyword">if</span>(methodSig == <span class="literal">nil</span>) <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">      <span class="keyword">const</span> <span class="keyword">char</span>* retType = [methodSig methodReturnType]; </span><br><span class="line">     <span class="keyword">if</span>(strcmp(retType, @encode(<span class="keyword">id</span>)) == <span class="number">0</span> || strcmp(retType, @encode(<span class="keyword">void</span>)) == <span class="number">0</span>)&#123;</span><br><span class="line">      <span class="keyword">return</span> [<span class="keyword">self</span> performSelector:aSelector]; </span><br><span class="line">      &#125; <span class="keyword">else</span> &#123; </span><br><span class="line">      <span class="built_in">NSLog</span>(<span class="string">@"-[%@ performSelector:@selector(%@)] shouldn't be used. The selector doesn't return an object or void"</span>, [<span class="keyword">self</span> className], <span class="built_in">NSStringFromSelector</span>(aSelector)); </span><br><span class="line">      <span class="keyword">return</span> <span class="literal">nil</span>; </span><br><span class="line">      &#125; </span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+            
+                
+
+            
+        </div>
+    </div>
+    <div class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/ios/">ios</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/09/08/ios-interview/"  data-tooltip="iOS面试题与答案(by:sxiaojian)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/08/28/autolayout/" data-tooltip="Auto Layout 的经验之谈">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <span id="busuanzi_container_page_pv">
+  您是本文第<span id="busuanzi_value_page_pv"></span>位读者
+    </span>
+
+</div>
+
+
+        
+            <section id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-perform-selector" data-title="performSelector的总结" data-url="http://sxiaojian.com/2015/09/08/perform-selector/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'sxiaojian'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 Sxiaojian的博客. All Rights Reserved.
+    </span>
+</footer>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<span id="busuanzi_container_site_pv">
+    您是本站第<span id="busuanzi_value_site_pv"></span>位访问者
+</span>
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/09/08/ios-interview/"  data-tooltip="iOS面试题与答案(by:sxiaojian)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/08/28/autolayout/" data-tooltip="Auto Layout 的经验之谈">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <span id="busuanzi_container_page_pv">
+  您是本文第<span id="busuanzi_value_page_pv"></span>位读者
+    </span>
+
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://sxiaojian.com/2015/09/08/perform-selector/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://sxiaojian.com/2015/09/08/perform-selector/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://sxiaojian.com/2015/09/08/perform-selector/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/cover.jpg"/>
+        
+            <h4 id="about-card-name">Sxiaojian的博客</h4>
+        
+            <h5 id="about-card-bio"><p>ios开发工程师</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Shou.TV</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                beijing
+            </h5>
+        
+    </div>
+</div>
+
+        <div id="cover" style="background-image:url('http://res.cloudinary.com/tranquilpeak-hexo-theme/image/upload/v1438975482/v1.3.0-cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','JU4VTGEa8Wn5JfrKzHob','2.0.0');
+    </script>
+
+
+</html>

@@ -1,0 +1,451 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Sxiaojian">
+    <title>Auto Layout 的经验之谈 - Sxiaojian</title>
+    <meta name="author" content="Sxiaojian的博客">
+    
+        <link rel="icon" href="/assets/images/true">
+    
+    
+        <link rel="alternative" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="Auto Layout 的经验之谈Auto Layout 的本质原理Auto Layout 的本质是用一些约束条件对元素进行约束，从而让他们显示在我们想让他们显示的地方。约束主要分为以下几种：  
+
+相对于父 view 的约束。如：距离上边距 10，左边距 10。  
+相对于前一个元素的约束。如：距离上一个元素 20，距离左边的元素 5 等。  
+对齐类约束。如：跟父 view 左对齐，跟上一个元">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Auto Layout 的经验之谈">
+<meta property="og:url" content="http://sxiaojian.com/2015/08/28/autolayout/index.html">
+<meta property="og:site_name" content="Sxiaojian">
+<meta property="og:description" content="Auto Layout 的经验之谈Auto Layout 的本质原理Auto Layout 的本质是用一些约束条件对元素进行约束，从而让他们显示在我们想让他们显示的地方。约束主要分为以下几种：  
+
+相对于父 view 的约束。如：距离上边距 10，左边距 10。  
+相对于前一个元素的约束。如：距离上一个元素 20，距离左边的元素 5 等。  
+对齐类约束。如：跟父 view 左对齐，跟上一个元">
+<meta property="og:image" content="http://7xiyql.com1.z0.glb.clouddn.com/屏幕快照%202015-08-28%20下午1.12.10.png">
+<meta property="og:image" content="http://7xiyql.com1.z0.glb.clouddn.com/屏幕快照%202015-08-28%20下午1.54.05.png">
+<meta property="og:image" content="http://7xiyql.com1.z0.glb.clouddn.com/屏幕快照%202015-08-28%20下午1.53.38.png">
+<meta property="og:updated_time" content="2016-01-09T08:52:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Auto Layout 的经验之谈">
+<meta name="twitter:description" content="Auto Layout 的经验之谈Auto Layout 的本质原理Auto Layout 的本质是用一些约束条件对元素进行约束，从而让他们显示在我们想让他们显示的地方。约束主要分为以下几种：  
+
+相对于父 view 的约束。如：距离上边距 10，左边距 10。  
+相对于前一个元素的约束。如：距离上一个元素 20，距离左边的元素 5 等。  
+对齐类约束。如：跟父 view 左对齐，跟上一个元">
+    
+    
+    
+        <meta property="og:image" content="/assets/images/cover.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style.min.css" type="text/css">
+    <!--STYLES END-->
+    <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?2fcacdd1025c71e8128c1eb7bf319be5";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Sxiaojian</a>
+    </h1>
+    
+        
+            <a  class="header-right-icon st-search-show-outputs"
+                href="/#search">
+        
+                <i class="fa fa-lg fa-search"></i>
+            </a>
+    
+</header>
+            <nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                
+                    <img class="sidebar-profile-picture" src="/assets/images/cover.jpg"/>
+                
+            </a>
+            <span class="sidebar-profile-name">Sxiaojian的博客</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archive</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="/#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:sunxiaojian@sxiaojian.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Auto Layout 的经验之谈
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Fri Aug 28 2015 15:39:24 GMT+0800">
+	
+		    8月 28, 2015
+    	
+    </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <h1 id="Auto_Layout_的经验之谈">Auto Layout 的经验之谈</h1><h4 id="Auto_Layout_的本质原理">Auto Layout 的本质原理</h4><p>Auto Layout 的本质是用一些约束条件对元素进行约束，从而让他们显示在我们想让他们显示的地方。<br>约束主要分为以下几种：  </p>
+<ul>
+<li>相对于父 view 的约束。如：距离上边距 10，左边距 10。  </li>
+<li>相对于前一个元素的约束。如：距离上一个元素 20，距离左边的元素 5 等。  </li>
+<li>对齐类约束。如：跟父 view 左对齐，跟上一个元素居中对齐等。  </li>
+<li>相等约束。如：跟父 view 等宽。  </li>
+</ul>
+<h4 id="使用快捷键快速添加约束">使用快捷键快速添加约束</h4><p>  <img src="http://7xiyql.com1.z0.glb.clouddn.com/屏幕快照%202015-08-28%20下午1.12.10.png" alt=""><br>  可以通过如图所示快捷键快速创建与父视图关系的约束</p>
+<h4 id="使用鼠标拖拽添加约束">使用鼠标拖拽添加约束</h4><p><img src="http://7xiyql.com1.z0.glb.clouddn.com/屏幕快照%202015-08-28%20下午1.54.05.png" alt=""><br><img src="http://7xiyql.com1.z0.glb.clouddn.com/屏幕快照%202015-08-28%20下午1.53.38.png" alt=""><br>按住control键从一个View拖至另一个View。<br>按住option键来切换是否需要margins<br>按住shift键可以多选，一次添加多个约束</p>
+<h4 id="Masonry">Masonry</h4><p>这是一个第三方的非常好用的开源框架，以前我以为Autolayout只能用xib了，否则代码量太大了，但是Masonry让用代码写Autolayout成为可能，而且非常强大，清晰好用，示例：  </p>
+<figure class="highlight openscad"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">UIEdgeInsets padding = UIEdgeInsetsMake<span class="params">(<span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>)</span>;</span><br><span class="line"></span><br><span class="line">[view1 mas_makeConstraints:^<span class="params">(MASConstraintMaker *make)</span> &#123;</span><br><span class="line">    make.top.equalTo<span class="params">(superview.mas_top)</span>.with.<span class="built_in">offset</span><span class="params">(padding.top)</span>;</span><br><span class="line">    make.left.equalTo<span class="params">(superview.mas_left)</span>.with.<span class="built_in">offset</span><span class="params">(padding.left)</span>;</span><br><span class="line">    make.bottom.equalTo<span class="params">(superview.mas_bottom)</span>.with.<span class="built_in">offset</span><span class="params">(-padding.bottom)</span>;</span><br><span class="line">    make.right.equalTo<span class="params">(superview.mas_right)</span>.with.<span class="built_in">offset</span><span class="params">(-padding.right)</span>;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<h4 id="AutoresizingMark">AutoresizingMark</h4><p>当我们使用Autoresizing时，运行时会自动根据autoresizingMask的特性为view添加Constraint， 我们可以通过下面这个API来决定启用还是关闭这一特性（NO为关闭）：<br><code>- (void)setTranslatesAutoresizingMaskIntoConstraints:(BOOL)flag NS_AVAILABLE_IOS(6_0);</code><br>这个属性在xib中默认是NO, 在不用xib时默认是YES, 也就是如果使用代码创建Constraint时，需要设置该属性为NO, Masonry自动帮我们做了这一操作，所以用Masonry不需要设置改属性。</p>
+<h4 id="Update_Constraint_与_Update_Frame">Update Constraint 与 Update Frame</h4><p>Update Constraint 是根据InterfaceBuilder上View的位置来改变约束的值<br>Update Frame 是根据约束的规则来改变View的frame，使View放置在正确的位置。</p>
+<h4 id="代码中改变约束的值">代码中改变约束的值</h4><p>interface中的任何对象都可以连线到代码中，约束也不例外。<br>连线后改变NSLayoutConsraint的constant的值。</p>
+<h4 id="margins">margins</h4><p>iOS8上关于UIView的Margin新增了3个APIs</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>) <span class="built_in">UIEdgeInsets</span> layoutMargins <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">8</span>_0); </span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>) <span class="built_in">BOOL</span> preservesSuperviewLayoutMargins <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">8</span>_0); </span><br><span class="line">- (<span class="keyword">void</span>)layoutMarginsDidChange <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">8</span>_0);</span><br></pre></td></tr></table></figure>
+<p>在iOS 8中，可以使用layoutMargins去定义view之间的间距,该属性只对AutoLayout布局生效。</p>
+<p>因此AutoLayout中NSLayoutAttribute的枚举值有了相应的更新：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSLayoutAttributeLeftMargin NS_ENUM_AVAILABLE_IOS(8_0),&#10;NSLayoutAttributeRightMargin NS_ENUM_AVAILABLE_IOS(8_0),&#10;NSLayoutAttributeTopMargin NS_ENUM_AVAILABLE_IOS(8_0),&#10;NSLayoutAttributeBottomMargin&#10;NS_ENUM_AVAILABLE_IOS(8_0),&#10;NSLayoutAttributeLeadingMargin&#10;NS_ENUM_AVAILABLE_IOS(8_0),&#10;NSLayoutAttributeTrailingMargin&#10;NS_ENUM_AVAILABLE_IOS(8_0),&#10;NSLayoutAttributeCenterXWithinMargins&#10;NS_ENUM_AVAILABLE_IOS(8_0),&#10;NSLayoutAttributeCenterYWithinMargins&#10;NS_ENUM_AVAILABLE_IOS(8_0),</span><br></pre></td></tr></table></figure>
+<h4 id="对UIScrollView使用_Auto_Layout">对UIScrollView使用 Auto Layout</h4><p><a href="http://blog.csdn.net/lihuiqwertyuiop/article/details/39320091" title="参考这篇文章" target="_blank" rel="external">参考这篇文章</a></p>
+<h4 id="Size_Classes">Size Classes</h4><p><a href="http://wangjordy.github.io/blog/2015/04/03/autolayout-%5B%3F%5D/" title="参考这篇文章" target="_blank" rel="external">参考这篇文章</a><br><a href="http://www.51ios.net/iosknow/87.html" title="这篇" target="_blank" rel="external">这篇</a></p>
+<h4 id="Content_Hugging_和_Content_Compression_Resistance">Content Hugging 和 Content Compression Resistance</h4><p>这两个属性对有intrinsic content size的控件（例如button，label）非常重要。通俗的讲，具有intrinsic content size的控件自己知道（可以计算）自己的大小，例如一个label，当你设置text，font之后，其大小是可以计算到的。关于intrinsic content size官方的解释</p>
+<blockquote>
+<p>Custom views typically have content that they display of which the layout system is unaware. Overriding this method allows a custom view to communicate to the layout system what size it would like to be based on its content. This intrinsic size must be independent of the content frame, because there’s no way to dynamically communicate a changed width to the layout system based on a changed height, for example.  </p>
+</blockquote>
+<p>UIView中关于Content Hugging 和 Content Compression Resistance的方法有：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (UILayoutPriority)contentCompressionResistancePriorityForAxis:(UILayoutConstraintAxis)axis&#10;- (void)setContentCompressionResistancePriority:(UILayoutPriority)priority forAxis:(UILayoutConstraintAxis)axis&#10;- (UILayoutPriority)contentHuggingPriorityForAxis:(UILayoutConstraintAxis)axis&#10;- (void)setContentHuggingPriority:(UILayoutPriority)priority forAxis:(UILayoutConstraintAxis)axis</span><br></pre></td></tr></table></figure>
+<p>Hugging priority 确定view有多大的优先级阻止自己变大。</p>
+<p>Compression Resistance priority确定有多大的优先级阻止自己变小。</p>
+<p>很抽象，其实content Hugging就是要维持当前view在它的optimal size（intrinsic content size），可以想象成给view添加了一个额外的width constraint，此constraint试图保持view的size不让其变大：</p>
+<p>view.width &lt;= optimal size</p>
+<p>此constraint的优先级就是通过上面的方法得到和设置的，content Hugging默认为250.</p>
+<p>Content Compression Resistance就是要维持当前view在他的optimal size（intrinsic content size），可以想象成给view添加了一个额外的width constraint，此constraint试图保持view的size不让其变小：<br>view.width &gt;= optimal size<br>此默认优先级为750.<br>这两个属性分别可以设置水平方向和垂直方向上的，而且一个默认优先级是250， 一个默认优先级是750. 因为这两个很有可能与其他Constraint冲突，所以优先级较低。</p>
+<h4 id="布局动画">布局动画</h4><p>动画是UI体验的重要部分，更改布局以后的动画也非常关键。只需要把layoutIfNeeded放到animation block中即可</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;[UIView animateWithDuration:0.5 animations:^&#123;&#10;    //change view&#39;s layoutconstraint&#10;    [view layoutIfNeeded];&#10;&#125;];</span><br></pre></td></tr></table></figure>
+<h4 id="容易出现的错误">容易出现的错误</h4><p>因为涉及约束问题，因此约束模型下的所有可能出现的问题这里都会出现，具体来说包括两种：</p>
+<ul>
+<li>Ambiguous Layout 布局不能确定</li>
+<li>Unsatisfiable Constraints 无法满足约束</li>
+</ul>
+<p>布局不能确定指的是给出的约束条件无法唯一确定一种布局，也即约束条件不足，无法得到唯一的布局结果。这种情况一般添加一些必要的约束或者调整优先级可以解决。无法满足约束的问题来源是有约束条件互相冲突，因此无法同时满足，需要删掉一些约束。两种错误在出现时均会导致布局的不稳定和错误，Ambiguous可以被容忍并且选择一种可行布局呈现在UI上，Unsatisfiable的话会无法得到UI布局并报错。 对于不能确定的布局，可以通过调试时暂停程序，在debugger中输入</p>
+<p><code>po [[UIWindow keyWindow] _autolayoutTrace]</code></p>
+<p>来检查是否存在Ambiguous Layout以及存在的位置，来帮助添加条件。</p>
+<h4 id="使用原则">使用原则</h4><p>总结一下autolayout的使用原则:  </p>
+<ul>
+<li>所添加的约束,必须是能够确定一个视图的位置和大小的  </li>
+<li>所添加的约束,必须是可以计算的,能唯一得出 宽高或者边界值的  </li>
+<li>所添加的约束,必须是不冲突的,否则会抛出异常  </li>
+<li>所添加的约束,在storyboard上默认是相邻的最近的视图之间的约束  </li>
+<li>所添加的约束,最好是以一个视图为基准添加,这样有利于修改,牵一发而动全身</li>
+<li>所添加的约束，最好模块化，一个模块内的约束修改不会影响到别的模块</li>
+<li>Auto Layout 与 Auto Resizing 是可以相互兼容的。如果一个vuew内部没有添加约束，则view内使用的是Auto Resizing布局，可以手动改frame。如果添加了约束，则view内使用Auto Layout 布局</li>
+<li>apple并不推荐我们删除约束再添加约束，会引发一些问题，推荐的做法是改变约束的值，cell复用时要注意。  </li>
+</ul>
+<h4 id="Auto_Layout进阶">Auto Layout进阶</h4><p>AutoLayout 进阶 Demo，宽高比约束、比例约束、不等约束、视差约束、低优先级约束等高级用法，无需写码即可进行复杂页面布局，Demo 还动态模拟了各屏幕下的效果。来自百度知道 iOS 小组的内部分享，源码请戳：<a href="https://github.com/philcn/Auto-Layout-Showcase" target="_blank" rel="external">Auto-Layout-Showcase</a></p>
+<p><a href="http://blog.sunnyxx.com/2015/05/17/cell-height-calculation/" target="_blank" rel="external">这篇文章</a>是百度知道团队最近对 UITableViewCell 利用 AutoLayout 自动高度计算和 UITableView 滑动优化的一个总结。<br>UITableView+FDTemplateLayoutCell，让高度计算这个事情变的前所未有的简单，也受到了很多星星的支持，<a href="https://github.com/forkingdog/UITableView-FDTemplateLayoutCell" target="_blank" rel="external">github链接请戳我</a></p>
+<p>百度知道团队还开源了UIView-FDCollapsibleConstraints,让一个View消失时跟View相关的约束也同时变为0<br><a href="https://github.com/forkingdog/UIView-FDCollapsibleConstraints" target="_blank" rel="external">github链接请戳我</a></p>
+
+            
+                
+
+            
+        </div>
+    </div>
+    <div class="post-footer main-content-wrap">
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/09/08/perform-selector/"  data-tooltip="performSelector的总结">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/08/14/NSView-backgroundColor/" data-tooltip="改变NSView backgroundColor的最简单方法">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <span id="busuanzi_container_page_pv">
+  您是本文第<span id="busuanzi_value_page_pv"></span>位读者
+    </span>
+
+</div>
+
+
+        
+            <section id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-autolayout" data-title="Auto Layout 的经验之谈" data-url="http://sxiaojian.com/2015/08/28/autolayout/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'sxiaojian'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 Sxiaojian的博客. All Rights Reserved.
+    </span>
+</footer>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<span id="busuanzi_container_site_pv">
+    您是本站第<span id="busuanzi_value_site_pv"></span>位访问者
+</span>
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/09/08/perform-selector/"  data-tooltip="performSelector的总结">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/08/14/NSView-backgroundColor/" data-tooltip="改变NSView backgroundColor的最简单方法">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <span id="busuanzi_container_page_pv">
+  您是本文第<span id="busuanzi_value_page_pv"></span>位读者
+    </span>
+
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://sxiaojian.com/2015/08/28/autolayout/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://sxiaojian.com/2015/08/28/autolayout/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://sxiaojian.com/2015/08/28/autolayout/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/cover.jpg"/>
+        
+            <h4 id="about-card-name">Sxiaojian的博客</h4>
+        
+            <h5 id="about-card-bio"><p>ios开发工程师</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Shou.TV</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                beijing
+            </h5>
+        
+    </div>
+</div>
+
+        <div id="cover" style="background-image:url('http://res.cloudinary.com/tranquilpeak-hexo-theme/image/upload/v1438975482/v1.3.0-cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','JU4VTGEa8Wn5JfrKzHob','2.0.0');
+    </script>
+
+
+</html>
