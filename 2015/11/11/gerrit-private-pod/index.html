@@ -18,11 +18,11 @@
 第二种方式是把podspec文件放在自己的项目的主目录">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="在gerrit环境下创建私有Pods">
-<meta property="og:url" content="http://sxiaojian.com/gerrit-private-pod.html">
+<meta property="og:url" content="http://sxiaojian.com/2015/11/11/gerrit-private-pod/index.html">
 <meta property="og:site_name" content="Sxiaojian">
 <meta property="og:description" content="在gerrit环境下创建私有Pods创建私有pod有两种方式，cocoapods的核心就是podspec文件，这个文件描述项目作者、主页、资源文件、版本等项目信息。第一种方式是podspec放在spec Repo仓库（相当于索引仓库）中，cocoapod先找到spec repo 中的podspec文件，然后再根据文件中的仓库地址找到项目。  
 第二种方式是把podspec文件放在自己的项目的主目录">
-<meta property="og:updated_time" content="2016-01-09T08:52:10.000Z">
+<meta property="og:updated_time" content="2016-02-21T10:35:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在gerrit环境下创建私有Pods">
 <meta name="twitter:description" content="在gerrit环境下创建私有Pods创建私有pod有两种方式，cocoapods的核心就是podspec文件，这个文件描述项目作者、主页、资源文件、版本等项目信息。第一种方式是podspec放在spec Repo仓库（相当于索引仓库）中，cocoapod先找到spec repo 中的podspec文件，然后再根据文件中的仓库地址找到项目。  
@@ -52,7 +52,7 @@ var _hmt = _hmt || [];
 
     <body>
         <div id="blog">
-            <header id="header" data-behavior="1">
+            <header id="header" data-behavior="3">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <h1 class="header-title">
         <a class="header-title-link" href="/ ">Sxiaojian</a>
@@ -66,7 +66,7 @@ var _hmt = _hmt || [];
             </a>
     
 </header>
-            <nav id="sidebar" data-behavior="1">
+            <nav id="sidebar" data-behavior="3">
     
         <div class="sidebar-profile">
             <a href="/#about">
@@ -179,7 +179,7 @@ var _hmt = _hmt || [];
 </nav>
 
             
-            <div id="main" data-behavior="1"
+            <div id="main" data-behavior="3"
                  class="
                         hasCoverMetaIn
                         ">
@@ -210,20 +210,22 @@ var _hmt = _hmt || [];
 <h1 id="两种用法的优缺点">两种用法的优缺点</h1><p>第一种方法需要使用者来维护一个spec repo仓库，项目作者可以完全不用管。  </p>
 <p>第二种方法需要项目作者来维护，需要项目作者知道cocopods的语法等相关知识。  </p>
 <p>第一种方式的podfile    </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">＃官方源</span><br><span class="line"><span class="built_in">source</span> <span class="string">'https://github.com/CocoaPods/Specs.git'</span></span><br><span class="line"><span class="comment">#本地私有源</span></span><br><span class="line"><span class="built_in">source</span> <span class="string">'https://internal.smartdevices.com.cn:29418/apps/Specs-iOS'</span></span><br><span class="line"></span><br><span class="line">pod <span class="string">'AlgoLib'</span>, <span class="string">'~&gt; 1.0.0'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">＃官方源</span><br><span class="line"><span class="built_in">source</span> <span class="string">'https://github.com/CocoaPods/Specs.git'</span></span><br><span class="line"><span class="comment">#本地私有源</span></span><br><span class="line"><span class="built_in">source</span> <span class="string">'https://YOURHOST/apps/Specs-iOS'</span></span><br><span class="line"></span><br><span class="line">pod <span class="string">'AlgoLib'</span>, <span class="string">'~&gt; 1.0.0'</span></span><br></pre></td></tr></table></figure>
 <p>第二种方式的Podfile    </p>
 <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">pod <span class="string">'AFNetworking'</span>, :git =&gt; <span class="string">'https://github.com/gowalla/AFNetworking.git'</span>, :tag =&gt; <span class="string">'0.7.0'</span></span><br></pre></td></tr></table></figure>
 <p>使用第二种方法创建私有repo不需要阅读全文，只需要阅读 如何制作 podspec文件与podspec文件的语法，然后将podspec文件放入自己的项目主目录里。  </p>
-<h1 id="在gerrit环境下的特殊性">在gerrit环境下的特殊性</h1><p>gerrit的项目的git地址带有邮箱，而私有pod要求同一个git地址能够被大家都能访问。<br>解决的方法就是利用https地址。例如：<a href="https://internal.smartdevices.com.cn:8080/apps/Specs-iOS.git" target="_blank" rel="external">https://internal.smartdevices.com.cn:8080/apps/Specs-iOS.git</a>   </p>
-<h2 id="使用私有pod的需要操作的地方">使用私有pod的需要操作的地方</h2><p>1、取消ssl验证<br><code>git config —global http.sslVerify false</code></p>
-<p>2、配置密码  </p>
+<h1 id="在gerrit环境下的特殊性">在gerrit环境下的特殊性</h1><p>gerrit的项目的git地址带有邮箱，而私有pod要求同一个git地址能够被大家都能访问。 </p>
+<p>解决的方法就是  </p>
+<h4 id="使用Https">使用Https</h4><p>利用https地址。例如：<a href="https://YOURHOST/apps/Specs-iOS.git" target="_blank" rel="external">https://YOURHOST/apps/Specs-iOS.git</a><br>配置密码  </p>
 <p>在gerrit个人页面－HTTP Password，生成http密码<br>username和password为git clone 需要的用户名和密码</p>
+<h4 id="使用ssh">使用ssh</h4><p>利用ssh的地址。例如：ssh://YOURHOST/app<br>编辑~/.ssh/config文件<br>添加<br><code>Host YOURHOST  
+    User YOURNAME</code> </p>
 <h1 id="创建Pod私有源步骤：">创建Pod私有源步骤：</h1><p>1、创建两个git仓库，一个用来做私有的Spec Repo（相当于索引，用来找到相应的仓库中的代码），一个是我们自己的库<br>2、制作Podspec，并且推送到你创建的私有repo<br>3、使用Pod，在Podfile添加私有源来搭建项目  </p>
-<h2 id="1、创建一个git仓库，用来做私有的Spec_Repo">1、创建一个git仓库，用来做私有的Spec Repo</h2><p>仓库建完后地址为<a href="https://internal.smartdevices.com.cn:29418/apps/Specs-iOS" target="_blank" rel="external">https://internal.smartdevices.com.cn:29418/apps/Specs-iOS</a>  </p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">pod repo add Specs-iOS <span class="string">https:</span><span class="comment">//internal.smartdevices.com.cn:29418/apps/Specs-iOS </span></span><br><span class="line"><span class="comment">//这个操作实际上是git clone 到~/.cocoapods/repos/Specs-iOS里</span></span><br><span class="line">$ ls <span class="regexp">~/.cocoapods/</span>repos</span><br><span class="line">Specs-iOS master</span><br></pre></td></tr></table></figure>
+<h2 id="1、创建一个git仓库，用来做私有的Spec_Repo">1、创建一个git仓库，用来做私有的Spec Repo</h2><p>仓库建完后地址为<a href="https://YOURHOST/apps/Specs-iOS" target="_blank" rel="external">https://YOURHOST/apps/Specs-iOS</a>  </p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">pod repo add Specs-iOS <span class="string">https:</span><span class="comment">//YOURHOST/apps/Specs-iOS </span></span><br><span class="line"><span class="comment">//这个操作实际上是git clone 到~/.cocoapods/repos/Specs-iOS里</span></span><br><span class="line">$ ls <span class="regexp">~/.cocoapods/</span>repos</span><br><span class="line">Specs-iOS master</span><br></pre></td></tr></table></figure>
 <h2 id="2、制作Podspec文件">2、制作Podspec文件</h2><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pod spec <span class="built_in">create</span> ［你的库名称］</span><br><span class="line">pod spec <span class="built_in">create</span> AlgoLib<span class="comment"></span><br><span class="line">//这个命令用来创建Podspec文件，生成了AlgoLib.podspec文件</span></span><br><span class="line">```  </span><br><span class="line"> </span><br><span class="line">然后编辑，可以按照以下格式 </span><br><span class="line">我已经把该省略的都省了</span><br></pre></td></tr></table></figure>
-<p>Pod::Spec.new do |s|<br>    s.name = ‘AlgoLib’<br>    s.version = ‘1.0.0’<br>    s.summary = ‘[summary]’<br>    s.homepage = ‘<a href="http://www.huami-inc.com" target="_blank" rel="external">http://www.huami-inc.com</a>‘<br>    s.description = ‘[s.description]’<br>    s.author = {‘HM’ =&gt; ‘HM@smartdevices.com.cn’ }<br>    s.source = { :git =&gt; ‘<a href="https://internal.smartdevices.com.cn:29418/algo/AlgoLib" target="_blank" rel="external">https://internal.smartdevices.com.cn:29418/algo/AlgoLib</a>‘ }<br>    s.platform = :ios,’7.0’<br>    s.source_files = ‘src/*’<br>end  </p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">其中  </span><br><span class="line"></span><br><span class="line">```  </span><br><span class="line">s.source = &#123; :git =&gt; <span class="string">'https://internal.smartdevices.com.cn:29418/algo/AlgoLib'</span> &#125;</span><br><span class="line"><span class="comment">//这个是不需要指定tag的</span></span><br><span class="line">s.source       = &#123; :git =&gt; <span class="string">'https://internal.smartdevices.com.cn:29418/algo/AlgoLib'</span>, :tag =&gt; <span class="string">'0.1.1'</span> &#125;</span><br><span class="line"><span class="comment">//这个是需要指定tag的，需要远程仓库有相应tag</span></span><br></pre></td></tr></table></figure>
+<p>Pod::Spec.new do |s|<br>    s.name = ‘AlgoLib’<br>    s.version = ‘1.0.0’<br>    s.summary = ‘[summary]’<br>    s.homepage = ‘<a href="http://www.huami-inc.com" target="_blank" rel="external">http://www.huami-inc.com</a>‘<br>    s.description = ‘[s.description]’<br>    s.author = {‘HM’ =&gt; ‘HM@smartdevices.com.cn’ }<br>    s.source = { :git =&gt; ‘<a href="https://YOURHOST/algo/AlgoLib" target="_blank" rel="external">https://YOURHOST/algo/AlgoLib</a>‘ }<br>    s.platform = :ios,’7.0’<br>    s.source_files = ‘src/*’<br>end  </p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">其中  </span><br><span class="line"></span><br><span class="line">```  </span><br><span class="line">s.source = &#123; :git =&gt; <span class="string">'https://YOURHOST/algo/AlgoLib'</span> &#125;</span><br><span class="line"><span class="comment">//这个是不需要指定tag的</span></span><br><span class="line">s.source       = &#123; :git =&gt; <span class="string">'https://YOURHOST/algo/AlgoLib'</span>, :tag =&gt; <span class="string">'0.1.1'</span> &#125;</span><br><span class="line"><span class="comment">//这个是需要指定tag的，需要远程仓库有相应tag</span></span><br></pre></td></tr></table></figure>
 <h2 id="3、验证并推送到你的私有repo">3、验证并推送到你的私有repo</h2><p>在AlgoLib.podspec同目录下执行   </p>
 <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pod lib lint   </span><br><span class="line">可添加参数 <span class="comment">--allow-warnings来取消warnings</span></span><br><span class="line">可添加参数 <span class="comment">--verbose来获得更详细的信息</span></span><br></pre></td></tr></table></figure>
 <p>首先验证的是AlgoLib.podspec的配置是否正确吗，然后验证仓库    </p>
@@ -235,9 +237,9 @@ var _hmt = _hmt || [];
 <p>在gerrit下，push这一步会出错  </p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cd ~/.cocoapods/repos/Specs-iOS/AlgoLib</span><br><span class="line">git <span class="operator"><span class="keyword">reset</span> origin/<span class="keyword">master</span></span><br><span class="line">//需要重新提交以下，因为之前的配置不对无法提交</span><br><span class="line">git config <span class="keyword">user</span>.<span class="keyword">name</span> <span class="string">"你的gerrit name"</span></span><br><span class="line">git config <span class="keyword">user</span>.email <span class="string">"你的gerrit email"</span></span><br><span class="line">git <span class="keyword">add</span> .</span><br><span class="line">git <span class="keyword">commit</span> -<span class="keyword">m</span> <span class="string">"add AlgiLib 1.0.0"</span></span><br><span class="line">git push origin <span class="keyword">HEAD</span>:refs/<span class="keyword">for</span>/<span class="keyword">master</span></span></span><br></pre></td></tr></table></figure>
 <p>到这一步，我们就可以用pod search 来搜索我们的库了</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ pod search algolib</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-&gt; AlgoLib (<span class="number">1.0</span><span class="number">.0</span>)</span><br><span class="line">   [summary]</span><br><span class="line">   pod <span class="string">'AlgoLib'</span>, <span class="string">'~&gt; 1.0.0'</span></span><br><span class="line">   - <span class="string">Homepage:</span> <span class="string">http:</span><span class="comment">//www.huami-inc.com</span></span><br><span class="line">   - <span class="string">Source:</span>   <span class="string">https:</span><span class="comment">//internal.smartdevices.com.cn:29418/algo/AlgoLib</span></span><br><span class="line">   - <span class="string">Versions:</span> <span class="number">1.0</span><span class="number">.0</span> [Specs-iOS repo]</span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ pod search algolib</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-&gt; AlgoLib (<span class="number">1.0</span><span class="number">.0</span>)</span><br><span class="line">   [summary]</span><br><span class="line">   pod <span class="string">'AlgoLib'</span>, <span class="string">'~&gt; 1.0.0'</span></span><br><span class="line">   - <span class="string">Homepage:</span> <span class="string">http:</span><span class="comment">//www.huami-inc.com</span></span><br><span class="line">   - <span class="string">Source:</span>   <span class="string">https:</span><span class="comment">//YOURHOST/algo/AlgoLib</span></span><br><span class="line">   - <span class="string">Versions:</span> <span class="number">1.0</span><span class="number">.0</span> [Specs-iOS repo]</span><br></pre></td></tr></table></figure>
 <h2 id="4、使用pod，在Podfile添加私有源来搭建项目">4、使用pod，在Podfile添加私有源来搭建项目</h2><p>使用时，在Podfile文件中添加本地私有源和官方源。如果没有添加本地私有源，它默认是用官方的repo，这样找不到本地的Pod；如果只是设置了本地私有源，就不会再去官方源中查找。 下面是Podfile内容</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#官方Cocoapods的源</span></span><br><span class="line">   <span class="built_in">source</span> <span class="string">'https://github.com/CocoaPods/Specs.git'</span></span><br><span class="line">   <span class="comment">#本地私有源</span></span><br><span class="line">   <span class="built_in">source</span> <span class="string">'https://internal.smartdevices.com.cn:29418/apps/Specs-iOS'</span></span><br><span class="line">   </span><br><span class="line">   pod <span class="string">'AlgoLib'</span>, <span class="string">'~&gt; 1.0.0'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#官方Cocoapods的源</span></span><br><span class="line">   <span class="built_in">source</span> <span class="string">'https://github.com/CocoaPods/Specs.git'</span></span><br><span class="line">   <span class="comment">#本地私有源</span></span><br><span class="line">   <span class="built_in">source</span> <span class="string">'https://YOURHOST/apps/Specs-iOS'</span></span><br><span class="line">   </span><br><span class="line">   pod <span class="string">'AlgoLib'</span>, <span class="string">'~&gt; 1.0.0'</span></span><br></pre></td></tr></table></figure>
 <p>如果想每次pod install时更新私有repo ,使用这种格式<br><code>pod &#39;AlgoLib&#39;,:head</code></p>
 <h2 id="注意">注意</h2><p>1、若是需要提交给官方，请使用</p>
 <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pod trunk register youremail</span><br><span class="line">查看信息</span><br><span class="line">pod trunk <span class="keyword">me</span></span><br><span class="line">将对应的pod推送到服务器</span><br><span class="line">pod turnk push</span><br></pre></td></tr></table></figure>
@@ -254,7 +256,7 @@ var _hmt = _hmt || [];
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/">undefined</a> <a class="tag tag--primary tag--small t-link" href="/">undefined</a> <a class="tag tag--primary tag--small t-link" href="/">undefined</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/cocoapods/">cocoapods</a> <a class="tag tag--primary tag--small t-link" href="/tags/gerrit/">gerrit</a> <a class="tag tag--primary tag--small t-link" href="/tags/podspec/">podspec</a>
 
             </div>
         
@@ -263,7 +265,7 @@ var _hmt = _hmt || [];
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/11/30/iOS-curve-gradient/"  data-tooltip="iOS实现曲线渐变">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -271,7 +273,7 @@ var _hmt = _hmt || [];
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/09/08/ios-interview/" data-tooltip="iOS面试题与答案(by:sxiaojian)">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -289,7 +291,7 @@ var _hmt = _hmt || [];
         
             <section id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="page-undefined" data-title="在gerrit环境下创建私有Pods" data-url="http://sxiaojian.com/gerrit-private-pod.html"></div>
+    <div class="ds-thread" data-thread-key="post-gerrit-private-pod" data-title="在gerrit环境下创建私有Pods" data-url="http://sxiaojian.com/2015/11/11/gerrit-private-pod/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -322,6 +324,57 @@ var _hmt = _hmt || [];
     您是本站第<span id="busuanzi_value_site_pv"></span>位访问者
 </span>
             </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/11/30/iOS-curve-gradient/"  data-tooltip="iOS实现曲线渐变">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/09/08/ios-interview/" data-tooltip="iOS面试题与答案(by:sxiaojian)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <span id="busuanzi_container_page_pv">
+  您是本文第<span id="busuanzi_value_page_pv"></span>位读者
+    </span>
+
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://sxiaojian.com/2015/11/11/gerrit-private-pod/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://sxiaojian.com/2015/11/11/gerrit-private-pod/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://sxiaojian.com/2015/11/11/gerrit-private-pod/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
             
         </div>
         <div id="about">
