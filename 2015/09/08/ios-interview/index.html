@@ -1,0 +1,420 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Sxiaojian">
+    <title>iOS面试题与答案 - Sxiaojian</title>
+    <meta name="author" content="Sxiaojian的博客">
+    
+        <link rel="icon" href="/assets/images/true">
+    
+    
+        <link rel="alternative" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="初级OC中创建线程的方法1234567891011121314151617181920212223242526272829303132333435363738394041   //创建线程的第一种方式   NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(run:) object:@&quot;univer">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="iOS面试题与答案">
+<meta property="og:url" content="http://sxiaojian.com/2015/09/08/ios-interview/index.html">
+<meta property="og:site_name" content="Sxiaojian">
+<meta property="og:description" content="初级OC中创建线程的方法1234567891011121314151617181920212223242526272829303132333435363738394041   //创建线程的第一种方式   NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(run:) object:@&quot;univer">
+<meta property="og:updated_time" content="2016-07-04T05:13:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS面试题与答案">
+<meta name="twitter:description" content="初级OC中创建线程的方法1234567891011121314151617181920212223242526272829303132333435363738394041   //创建线程的第一种方式   NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(run:) object:@&quot;univer">
+    
+    
+    
+        <meta property="og:image" content="/assets/images/cover.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style.min.css" type="text/css">
+    <!--STYLES END-->
+    <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?2fcacdd1025c71e8128c1eb7bf319be5";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Sxiaojian</a>
+    </h1>
+    
+        
+            <a  class="header-right-icon st-search-show-outputs"
+                href="/#search">
+        
+                <i class="fa fa-lg fa-search"></i>
+            </a>
+    
+</header>
+            <nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                
+                    <img class="sidebar-profile-picture" src="/assets/images/cover.jpg"/>
+                
+            </a>
+            <span class="sidebar-profile-name">Sxiaojian的博客</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archive</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="/#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:sunxiaojian@sxiaojian.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            iOS面试题与答案
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Tue Sep 08 2015 15:03:09 GMT+0800">
+	
+		    9月 08, 2015
+    	
+    </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <h1 id="初级">初级</h1><h4 id="OC中创建线程的方法">OC中创建线程的方法</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">   <span class="comment">//创建线程的第一种方式</span></span><br><span class="line">   <span class="built_in">NSThread</span> *thread = [[<span class="built_in">NSThread</span> alloc] initWithTarget:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(run:) object:<span class="string">@"universe"</span>];</span><br><span class="line">   </span><br><span class="line">   [thread start];  </span><br><span class="line">   <span class="comment">//创建线程的第二种方式，NSThread类方法</span></span><br><span class="line">   [<span class="built_in">NSThread</span> detachNewThreadSelector:<span class="keyword">@selector</span>(run:) toTarget:<span class="keyword">self</span> withObject:<span class="string">@"yuzhou"</span>];</span><br><span class="line">   <span class="comment">//创建线程的第三种方法  NSObject方法</span></span><br><span class="line">   [<span class="keyword">self</span> performSelectorInBackground:<span class="keyword">@selector</span>(run:) withObject:<span class="string">@"nsobject thread"</span>];</span><br><span class="line">   <span class="comment">//创建线程的第四种方式</span></span><br><span class="line">   <span class="built_in">NSOperationQueue</span> *oprationQueue = [[<span class="built_in">NSOperationQueue</span> alloc] init];</span><br><span class="line">   [oprationQueue addOperationWithBlock:^&#123;</span><br><span class="line">       <span class="comment">//这个block语句块在子线程中执行</span></span><br><span class="line">       <span class="built_in">NSLog</span>(<span class="string">@"oprationQueue"</span>);</span><br><span class="line">   &#125;];</span><br><span class="line"><span class="comment">//第五种创建线程的方式</span></span><br><span class="line">   <span class="built_in">NSOperationQueue</span> *oprationQueue1 = [[<span class="built_in">NSOperationQueue</span> alloc] init];</span><br><span class="line">   oprationQueue1<span class="variable">.maxConcurrentOperationCount</span> = <span class="number">1</span>;<span class="comment">//指定池子的并发数</span></span><br><span class="line">    </span><br><span class="line"><span class="comment">//NSOperation 相当于java中的runnable接口，继承自它的就相当一个任务</span></span><br><span class="line">   <span class="built_in">NSInvocationOperation</span> *invation = [[<span class="built_in">NSInvocationOperation</span> alloc] initWithTarget:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(run:) object:<span class="string">@"invation"</span>];</span><br><span class="line">   [oprationQueue1 addOperation:invation];<span class="comment">//将任务添加到池子里面，可以给池子添加多个任务，并且指定它的并发数</span></span><br><span class="line"><span class="comment">//第二个任务</span></span><br><span class="line">   <span class="built_in">NSInvocationOperation</span> *invation2 = [[<span class="built_in">NSInvocationOperation</span> alloc] initWithTarget:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(run2:) object:<span class="string">@"invocation2"</span>];</span><br><span class="line">   invation2<span class="variable">.queuePriority</span> = <span class="built_in">NSOperationQueuePriorityHigh</span>;<span class="comment">//设置线程优先级</span></span><br><span class="line">   [oprationQueue1 addOperation:invation2];</span><br><span class="line"><span class="comment">//---------------------GCD----------------------支持多核，高效率的多线程技术</span></span><br><span class="line"><span class="comment">//创建多线程第六种方式</span></span><br><span class="line">   <span class="built_in">dispatch_queue_t</span> queue = dispatch_queue_create(<span class="string">"name"</span>, <span class="literal">NULL</span>);</span><br><span class="line">   <span class="comment">//创建一个子线程</span></span><br><span class="line">   <span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">       <span class="comment">// 子线程code... ..</span></span><br><span class="line">       <span class="built_in">NSLog</span>(<span class="string">@"GCD多线程"</span>);</span><br><span class="line">        </span><br><span class="line">       <span class="comment">//回到主线程</span></span><br><span class="line">       <span class="built_in">dispatch_sync</span>(dispatch_get_main_queue(), ^&#123;<span class="comment">//其实这个也是在子线程中执行的，只是把它放到了主线程的队列中</span></span><br><span class="line">           Boolean isMain = [<span class="built_in">NSThread</span> isMainThread];</span><br><span class="line">           <span class="keyword">if</span> (isMain) &#123;</span><br><span class="line">               <span class="built_in">NSLog</span>(<span class="string">@"GCD主线程"</span>);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">   &#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="ARC的实现原理">ARC的实现原理</h4><p>Automatic Reference Counting，自动引用计数，即ARC，可以说是WWDC2011和iOS5所引入的最大的变革和最激动人心的变化。  </p>
+<p>ARC并不是垃圾收集，而且，引用计数也没有消失，只是变成自动而已。<br>当采用ARC后，代码只要这样写:<br><code>NSObject *obj = [[NSObject alloc] init];</code><br>ARC会自动将它变成:<br><code>NSObject *obj = [[NSObject alloc] init];
+[obj release]; // **Added by ARC**</code><br>ARC 会自动帮助你添加 retain 和release/autorelease语句。</p>
+<h4 id="self-bounds_与_self-frame_是什么区别">self.bounds 与 self.frame 是什么区别</h4><p><a href="http://honglu.me/2014/10/21/%E6%B5%85%E6%9E%90frame%E4%B8%8Ebounds/" target="_blank" rel="external">浅析frame与bounds</a></p>
+<h4 id="category是什么_实现了什么功能">category是什么 实现了什么功能</h4><p><a href="http://tech.meituan.com/DiveIntoCategory.html" target="_blank" rel="external">深入理解Objective-C：Category</a>  </p>
+<h4 id="UITableView的insertRowAtIndexPaths怎么用">UITableView的insertRowAtIndexPaths怎么用</h4><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr_selector">[self.tableView beginUpdates]</span>;</span><br><span class="line"><span class="attr_selector">[self.tableView insertRowsAtIndexPaths:insertion withRowAnimation:UITableViewRowAnimationNone]</span>;</span><br><span class="line"><span class="comment">//更新数据源</span></span><br><span class="line"><span class="attr_selector">[self.tableView endUpdates]</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="dequeueResuableCellWithIdentifier_与_dequeueResuableCellWithIdentifier_forIndexPath_什么区别">dequeueResuableCellWithIdentifier 与 dequeueResuableCellWithIdentifier forIndexPath 什么区别</h4><p>直接看官方解释吧</p>
+<blockquote>
+<ul>
+<li>(id)dequeueReusableCellWithIdentifier:(NSString *)identifier;  // Used by the delegate to acquire an already allocated cell, in lieu of allocating a new one.</li>
+<li>(id)dequeueReusableCellWithIdentifier:(NSString <em>)identifier forIndexPath:(NSIndexPath </em>)indexPath NS_AVAILABLE_IOS(6_0); // newer dequeue method guarantees a cell is returned and resized properly, assuming identifier is registered</li>
+</ul>
+</blockquote>
+<h4 id="UITableView的estimateRowHeight是什么意思_起什么作用">UITableView的estimateRowHeight是什么意思 起什么作用</h4><p>参考<a href="http://blog.sunnyxx.com/2015/05/17/cell-height-calculation/" target="_blank" rel="external">优化UITableViewCell高度计算的那些事</a>中的estimatedRowHeight  </p>
+<p>7、UIViewContentMode都有什么 分别什么意思<br>8、NSUserdefault如何存对象 NSUserdefault的同步机制是什么<br>9、iOS应用程序的生命周期<br>10、UIViewController的生命周期  </p>
+<h4 id="property都有哪些关键字，都是什么意思">property都有哪些关键字，都是什么意思</h4><p>找了半天，这篇最详细<a href="http://www.wugaojun.com/blog/2015/07/25/at-propertyshu-xing-guan-jian-zi-xiang-jie/" target="_blank" rel="external">@property属性关键字详解</a></p>
+<h4 id="＃import和＃include的区别，@class代表什么">＃import和＃include的区别，@class代表什么</h4><p>区分 #include <x.h>与#include “x.h”的作用<br>“#include <x.h>“:它用于对系统自带的头文件的引用，编译器会在系统文件目录下去查找该文件.<br>“#include “x.h””:用户自定义的文件用双引号引用，编译器首先会在用户目录下查找，然后到安装目录中查找，最后在系统文件中查找。<br>在使用#include的时候要注意处理重复引用（这也是objc中#include与#import的区别）<br>例如：ClassA 与 ClassB同时引用了ClassC，不做重复引用处理的时候在ClassD中同时引用ClassA，ClassB编译会提示对ClassC重复引用的错误.<br>我们可以:  </x.h></x.h></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="id">#ifndef</span> _CLASSC_H   </span><br><span class="line"><span class="hexcolor">#def</span>ine _CLASSC_H</span><br><span class="line"><span class="id">#include</span> <span class="string">"ClassC"</span>  </span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+<p>这样处理在编译时就不会有重复引用的错误出现（在objc中#import解决了这个问题，这是它们的区别）<br>“#import” 大部分功能和#include是一样的，但是他处理了重复引用的问题，我们在引用文件的时候不用再去自己进行重复引用处理.</p>
+<p>@class与#import<br>二者的区别在于：<br>1.import会包含这个类的所有信息，包括实体变量和方法，而@class只是告诉编译器，其后面声明的名称是类的名称，至于这些类是如何定义的，暂时不用考虑，后面会再告诉你。<br>2.在头文件中， 一般只需要知道被引用的类的名称就可以了。 不需要知道其内部的实体变量和方法，所以在头文件中一般使用@class来声明这个名称是类的名称。 而在实现类里面，因为会用到这个引用类的内部的实体变量和方法，所以需要使用#import来包含这个被引用类的头文件。<br>3.在编译效率方面考虑，如果你有100个头文件都#import了同一个头文件，或者这些文件是依次引用的，如A–&gt;B, B–&gt;C, C–&gt;D这样的引用关系。当最开始的那个头文件有变化的话，后面所有引用它的类都需要重新编译，如果你的类有很多的话，这将耗费大量的时间。而是用@class则不会。<br>4.如果有循环依赖关系，如:A–&gt;B, B–&gt;A这样的相互依赖关系，如果使用#import来相互包含，那么就会出现编译错误，如果使用@class在两个类的头文件中相互声明，则不会有编译错误出现。<br>所以，一般来说，@class是放在interface中的，只是为了在interface中引用这个类，把这个类作为一个类型来用的。 在实现这个接口的实现类中，如果需要引用这个类的实体变量或者方法之类的，还是需要import在@class中声明的类进来.  </p>
+<h2 id="中级">中级</h2><h4 id="setValueForKey_与_setObjectForKey_什么区别">setValueForKey 与 setObjectForKey 什么区别</h4><p><a href="http://www.devdiv.com/setvalue_setobject_-blog-30695-56409.html" target="_blank" rel="external">setValue和setObject的区别</a></p>
+<h4 id="两个应用之间怎么通讯">两个应用之间怎么通讯</h4><p>问题问的不好，想要的答案是URL Scheme</p>
+<h4 id="说一下block内存管理">说一下block内存管理</h4><p>首先看这篇<a href="http://www.cnblogs.com/biosli/p/block_usage.html" target="_blank" rel="external">关于block使用的5点注意事项</a><br>详情参考《iOS高级编程 多线程和内存管理》</p>
+<p>4、NSLayoutContraint包含哪些属性</p>
+<h4 id="InterfaceBuilder中的约束如何在代码中修改">InterfaceBuilder中的约束如何在代码中修改</h4><p>可以连线获得NSLayoutConstraint对象，也可以通过<br><code>- (NSArray *)constraints NS_AVAILABLE_IOS(6_0);</code><br>这个属性来遍历<br>6、UITextView UITextField 有什么区别</p>
+<h4 id="autolayout如何做动画">autolayout如何做动画</h4><p><a href="http://sxiaojian.com/2015/08/28/autolayout/">http://sxiaojian.com/2015/08/28/autolayout/</a><br>8、copy 与muteblecopy 什么区别<br>9、block copy 是什么意思 string copy 是什么意思<br>10、如何封装一个下拉刷新<br>11、OC中如何实现线程安全<br><a href="http://www.cnblogs.com/GarveyCalvin/p/4212611.html" target="_blank" rel="external">http://www.cnblogs.com/GarveyCalvin/p/4212611.html</a><br>12、iOS中的手势都是什么 手势类叫什么名字 手势间相互影响怎么解决<br>13、UIView的 alpha 与 opaque 是什么区别 根hidden有什么区别<br><a href="http://joeshang.github.io/2014/12/19/transparency-property-diffence-in-uiview/" target="_blank" rel="external">UIView中hidden、alpha、clear color与opaque的区别</a></p>
+<h4 id="ios7增加了哪些api_ios8增加了哪些api_ios9">ios7增加了哪些api ios8增加了哪些api ios9</h4><p>这个纯粹看积累</p>
+<h4 id="遍历NSArray中的对象都有什么方法">遍历NSArray中的对象都有什么方法</h4><p><a href="http://blog.sunnyxx.com/2014/04/30/ios_iterator/" target="_blank" rel="external">ios中集合遍历方法的比较和技巧</a><br>16、如何通过cell找到tableview 如何知道cell在哪个controller<br>17、UITableView的继承链 uibutton的继承链</p>
+<h2 id="高级">高级</h2><p>1、说一下OC的runtime特性<br>2、响应者链是什么 touch事件如何传递 成为第一响应者要满足条件<br>3、NSRunloop是什么 都有哪些模式  </p>
+<h4 id="content_hugging_priority_content_compression_resistance_priority是什么意思">content hugging priority  content compression resistance priority是什么意思</h4><p><a href="http://sxiaojian.com/2015/08/28/autolayout/">http://sxiaojian.com/2015/08/28/autolayout/</a><br>5、category是什么 实现了什么功能  </p>
+<h2 id="一些第三方库不用添加代码就能起作用_原理是什么">一些第三方库不用添加代码就能起作用 原理是什么</h2><p>在load方法里，自动就执行了，不需要调用  </p>
+<h4 id="other_link_flag_中的_objc_起什么作用">other link flag 中的 objc 起什么作用</h4><p>加载静态库中的category<br>8、UIScrollView的 decelerationRate flashScrollIndicators tracking dragging scrollsToTop 都是什么意思  </p>
+<h2 id="上机题">上机题</h2><h4 id="如何删除array1［@1，@2，@3］中_array2［@1，@2］_有的对象">如何删除array1［@1，@2，@3］中 array2［@1，@2］ 有的对象</h4><p>方法一</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">    NSMutableArray *<span class="built_in">array</span> = @[@<span class="number">1</span>,@<span class="number">2</span>,@<span class="number">3</span>,@<span class="number">4</span>,@<span class="number">5</span>].mutableCopy;</span><br><span class="line">    NSArray *array2 = @[@<span class="number">1</span>,@<span class="number">2</span>,@<span class="number">5</span>];</span><br><span class="line">    NSMutableIndexSet *indexes = [[NSMutableIndexSet alloc] init];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">array</span>.count; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (NSNumber *num in array2) &#123;</span><br><span class="line">            <span class="keyword">if</span> ([<span class="built_in">array</span>[i] isEqual:num]) &#123;</span><br><span class="line">                [indexes addIndex:i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    [<span class="built_in">array</span> removeObjectsAtIndexes:indexes];</span><br><span class="line">    NSLog(@<span class="string">"%@"</span>,<span class="built_in">array</span>);</span><br><span class="line">  </span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">方法二</span><br></pre></td></tr></table></figure>
+<pre><code>NSMutableArray <span class="variable">*array</span> = <span class="variable">@[</span><span class="variable">@1</span>,<span class="variable">@2</span>,<span class="variable">@3</span>,<span class="variable">@4</span>,<span class="variable">@5</span>].mutableCopy;
+NSArray <span class="variable">*array2</span> = <span class="variable">@[</span><span class="variable">@1</span>,<span class="variable">@2</span>,<span class="variable">@5</span>];
+[array removeObjectsInArray:array2];
+NSLog(<span class="variable">@"</span><span class="variable">%@</span><span class="string">",array);</span>
+</code></pre><p>```<br>2、修改InterfaceBuilder中已添加约束的view的frame</p>
+<p>3、等宽子视图</p>
+
+            
+                
+
+            
+        </div>
+    </div>
+    <div class="post-footer main-content-wrap">
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/11/11/gerrit-private-pod/"  data-tooltip="在gerrit环境下创建私有Pods">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/09/08/perform-selector/" data-tooltip="performSelector的总结">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <span id="busuanzi_container_page_pv">
+  您是本文第<span id="busuanzi_value_page_pv"></span>位读者
+    </span>
+
+</div>
+
+
+        
+            <section id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-ios-interview" data-title="iOS面试题与答案" data-url="http://sxiaojian.com/2015/09/08/ios-interview/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'sxiaojian'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 Sxiaojian的博客. All Rights Reserved.
+    </span>
+</footer>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<span id="busuanzi_container_site_pv">
+    您是本站第<span id="busuanzi_value_site_pv"></span>位访问者
+</span>
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/11/11/gerrit-private-pod/"  data-tooltip="在gerrit环境下创建私有Pods">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/09/08/perform-selector/" data-tooltip="performSelector的总结">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <span id="busuanzi_container_page_pv">
+  您是本文第<span id="busuanzi_value_page_pv"></span>位读者
+    </span>
+
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://sxiaojian.com/2015/09/08/ios-interview/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://sxiaojian.com/2015/09/08/ios-interview/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://sxiaojian.com/2015/09/08/ios-interview/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/cover.jpg"/>
+        
+            <h4 id="about-card-name">Sxiaojian的博客</h4>
+        
+            <h5 id="about-card-bio"><p>author.bio</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                beijing
+            </h5>
+        
+    </div>
+</div>
+
+        <div id="cover" style="background-image:url('http://res.cloudinary.com/tranquilpeak-hexo-theme/image/upload/v1438975482/v1.3.0-cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','JU4VTGEa8Wn5JfrKzHob','2.0.0');
+    </script>
+
+
+</html>

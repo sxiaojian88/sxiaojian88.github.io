@@ -1,0 +1,439 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Sxiaojian">
+    <title>hook京东iOS客户端 - Sxiaojian</title>
+    <meta name="author" content="Sxiaojian的博客">
+    
+        <link rel="icon" href="/assets/images/true">
+    
+    
+        <link rel="alternative" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="准备工作需要的软件
+iOS App signer 链接
+MachOView yololib 链接
+ideviceinstaller    brew install ideviceinstaller
+
+需要的材料
+京东客户端，已砸壳版，可以去pp助手等助手类网站下载，省去了自己砸壳的过程
+开发者账号，个人、企业都可以
+某一动态库，本文不介绍动态库如何写，如何生成。文章中我选用的是链接
+iPhone，">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="hook京东iOS客户端">
+<meta property="og:url" content="http://sxiaojian.com/2016/07/05/hook-jingdong-iosapp/index.html">
+<meta property="og:site_name" content="Sxiaojian">
+<meta property="og:description" content="准备工作需要的软件
+iOS App signer 链接
+MachOView yololib 链接
+ideviceinstaller    brew install ideviceinstaller
+
+需要的材料
+京东客户端，已砸壳版，可以去pp助手等助手类网站下载，省去了自己砸壳的过程
+开发者账号，个人、企业都可以
+某一动态库，本文不介绍动态库如何写，如何生成。文章中我选用的是链接
+iPhone，">
+<meta property="og:image" content="http://7xiyql.com1.z0.glb.clouddn.com/2016-07-05_Screen%20Shot%202016-07-05%20at%206.21.29%20PM.png">
+<meta property="og:updated_time" content="2016-07-05T10:35:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hook京东iOS客户端">
+<meta name="twitter:description" content="准备工作需要的软件
+iOS App signer 链接
+MachOView yololib 链接
+ideviceinstaller    brew install ideviceinstaller
+
+需要的材料
+京东客户端，已砸壳版，可以去pp助手等助手类网站下载，省去了自己砸壳的过程
+开发者账号，个人、企业都可以
+某一动态库，本文不介绍动态库如何写，如何生成。文章中我选用的是链接
+iPhone，">
+    
+    
+    
+        <meta property="og:image" content="/assets/images/cover.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style.min.css" type="text/css">
+    <!--STYLES END-->
+    <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?2fcacdd1025c71e8128c1eb7bf319be5";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Sxiaojian</a>
+    </h1>
+    
+        
+            <a  class="header-right-icon st-search-show-outputs"
+                href="/#search">
+        
+                <i class="fa fa-lg fa-search"></i>
+            </a>
+    
+</header>
+            <nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                
+                    <img class="sidebar-profile-picture" src="/assets/images/cover.jpg"/>
+                
+            </a>
+            <span class="sidebar-profile-name">Sxiaojian的博客</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archive</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="/#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:sunxiaojian@sxiaojian.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            hook京东iOS客户端
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Tue Jul 05 2016 17:35:23 GMT+0800">
+	
+		    7月 05, 2016
+    	
+    </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <h1 id="准备工作">准备工作</h1><h2 id="需要的软件">需要的软件</h2><ul>
+<li>iOS App signer <a href="https://github.com/DanTheMan827/ios-app-signer" title="https://github.com/DanTheMan827/ios-app-signer" target="_blank" rel="external">链接</a></li>
+<li>MachOView yololib <a href="https://github.com/zhengmin1989/iOS_ICE_AND_FIRE" title="https://github.com/zhengmin1989/iOS_ICE_AND_FIRE" target="_blank" rel="external">链接</a></li>
+<li>ideviceinstaller    <code>brew install ideviceinstaller</code></li>
+</ul>
+<h2 id="需要的材料">需要的材料</h2><ul>
+<li>京东客户端，已砸壳版，可以去pp助手等助手类网站下载，省去了自己砸壳的过程</li>
+<li>开发者账号，个人、企业都可以</li>
+<li>某一动态库，本文不介绍动态库如何写，如何生成。文章中我选用的是<a href="https://github.com/qiaoxueshi/FLEXDynamicLibProject" title="https://github.com/qiaoxueshi/FLEXDynamicLibProject" target="_blank" rel="external">链接</a></li>
+<li>iPhone，非越狱即可</li>
+</ul>
+<h1 id="开始">开始</h1><h2 id="动态库文件与bin文件">动态库文件与bin文件</h2><p>解压京东客户端的ipa文件，取出bin二进制执行文件。执行<br><code>./yololib [被插入dylib的二进制文件] [要插入的dylib]</code></p>
+<p>是否插入成功，可用MachOView这个软件查看</p>
+<p>对动态库进行签名</p>
+<p>｀codesign -f -s “iPhone Developer: xxxxxxx@gmail.com (XXXXXXXXX)” FLEXDylib.dylib｀</p>
+<p>然后将两个文件都拷贝到JD4iPhone.app文件夹中</p>
+<h2 id="embedded-mobileprovision">embedded.mobileprovision</h2><p>创建一个新的工程，bundleID写一个新的。（用线上app的bundleID无法进行签名）</p>
+<p>如果无法运行，按照提示fix issue，或者换个bundleID。</p>
+<p>编译运行成功后，打开声称的.app文件夹，找到embedded.mobileprovision这个文件，拷贝到JD4iPhone.app文件夹中。</p>
+<h2 id="多个target">多个target</h2><p>京东客户端有Today Extension 与 Watch Extension，签名比较麻烦，我采用简单粗暴的方式，直接删除。<br>在JD4iPhone.app文件夹中，删除PlugIns文件夹</p>
+<h2 id="使用iOS_App_signer_进行签名">使用iOS App signer 进行签名</h2><ul>
+<li>打开iOS App signer。</li>
+<li>Input File 选择 JD4iPhone.app文件夹</li>
+<li>证书选择你的证书，生成embedded.mobileprovision用的证书</li>
+<li>Provisionning Profile 选择对应bundleID的Provisionning Profile</li>
+<li>后面两项为可选，可不填</li>
+<li>点击start，选择目标路径，最后会生成ipa安装包</li>
+</ul>
+<h2 id="安装">安装</h2><p>使用 ideviceinstaller 这个命令行工具可清楚的看到哪一步安装失败。</p>
+<p>｀ideviceinstaller -i JD4iPhone.ipa｀</p>
+<h2 id="最后">最后</h2><p>如果安装成功了，会提示证书需要信任，去设置－通用－描述文件，信任一下就可以了。<br><img src="http://7xiyql.com1.z0.glb.clouddn.com/2016-07-05_Screen%20Shot%202016-07-05%20at%206.21.29%20PM.png" alt=""></p>
+<h2 id="参考文章">参考文章</h2><p>详细教程请点击 <a href="http://drops.wooyun.org/papers/12803" target="_blank" rel="external">iOS冰与火之歌番外篇 - 在非越狱手机上进行App Hook</a></p>
+
+            
+                
+
+            
+        </div>
+    </div>
+    <div class="post-footer main-content-wrap">
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/07/04/terminal-shadowsocks/" data-tooltip="在terminal中使用shadowsocks">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <span id="busuanzi_container_page_pv">
+  您是本文第<span id="busuanzi_value_page_pv"></span>位读者
+    </span>
+
+</div>
+
+
+        
+            <section id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-hook-jingdong-iosapp" data-title="hook京东iOS客户端" data-url="http://sxiaojian.com/2016/07/05/hook-jingdong-iosapp/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'sxiaojian'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 Sxiaojian的博客. All Rights Reserved.
+    </span>
+</footer>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<span id="busuanzi_container_site_pv">
+    您是本站第<span id="busuanzi_value_site_pv"></span>位访问者
+</span>
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/07/04/terminal-shadowsocks/" data-tooltip="在terminal中使用shadowsocks">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <span id="busuanzi_container_page_pv">
+  您是本文第<span id="busuanzi_value_page_pv"></span>位读者
+    </span>
+
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://sxiaojian.com/2016/07/05/hook-jingdong-iosapp/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://sxiaojian.com/2016/07/05/hook-jingdong-iosapp/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://sxiaojian.com/2016/07/05/hook-jingdong-iosapp/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/cover.jpg"/>
+        
+            <h4 id="about-card-name">Sxiaojian的博客</h4>
+        
+            <h5 id="about-card-bio"><p>author.bio</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                beijing
+            </h5>
+        
+    </div>
+</div>
+
+        <div id="cover" style="background-image:url('http://res.cloudinary.com/tranquilpeak-hexo-theme/image/upload/v1438975482/v1.3.0-cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','JU4VTGEa8Wn5JfrKzHob','2.0.0');
+    </script>
+
+
+</html>

@@ -1,0 +1,411 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Sxiaojian">
+    <title>iOS实现曲线渐变 - Sxiaojian</title>
+    <meta name="author" content="Sxiaojian的博客">
+    
+        <link rel="icon" href="/assets/images/true">
+    
+    
+        <link rel="alternative" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="圆形渐变最近产品提了一个需求，要求进度条的进度可以大于1。效果如下效果图上卡，实际上并不卡。在开始做之前，看了github上所有的progress相关的代码，发现并没有人实现过这样的效果。苹果apple watch应用实现了，但是不知道苹果是怎么实现的。这个效果的难度就在于 曲线渐变 和 进度能大于1。cocoa touch提供的api都是直线渐变。而进度可以大于1要求曲线的首和尾颜色不能想近，应">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="iOS实现曲线渐变">
+<meta property="og:url" content="http://sxiaojian.com/2015/11/30/iOS-curve-gradient/index.html">
+<meta property="og:site_name" content="Sxiaojian">
+<meta property="og:description" content="圆形渐变最近产品提了一个需求，要求进度条的进度可以大于1。效果如下效果图上卡，实际上并不卡。在开始做之前，看了github上所有的progress相关的代码，发现并没有人实现过这样的效果。苹果apple watch应用实现了，但是不知道苹果是怎么实现的。这个效果的难度就在于 曲线渐变 和 进度能大于1。cocoa touch提供的api都是直线渐变。而进度可以大于1要求曲线的首和尾颜色不能想近，应">
+<meta property="og:image" content="http://7xiyql.com1.z0.glb.clouddn.com/progress.gif">
+<meta property="og:image" content="http://7xiyql.com1.z0.glb.clouddn.com/roundedWaiting.gif">
+<meta property="og:image" content="http://7xiyql.com1.z0.glb.clouddn.com/roundedWaiting3.gif">
+<meta property="og:image" content="http://7xiyql.com1.z0.glb.clouddn.com/roundedWaiting2.gif">
+<meta property="og:updated_time" content="2016-07-04T05:13:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS实现曲线渐变">
+<meta name="twitter:description" content="圆形渐变最近产品提了一个需求，要求进度条的进度可以大于1。效果如下效果图上卡，实际上并不卡。在开始做之前，看了github上所有的progress相关的代码，发现并没有人实现过这样的效果。苹果apple watch应用实现了，但是不知道苹果是怎么实现的。这个效果的难度就在于 曲线渐变 和 进度能大于1。cocoa touch提供的api都是直线渐变。而进度可以大于1要求曲线的首和尾颜色不能想近，应">
+    
+    
+    
+        <meta property="og:image" content="/assets/images/cover.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style.min.css" type="text/css">
+    <!--STYLES END-->
+    <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?2fcacdd1025c71e8128c1eb7bf319be5";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Sxiaojian</a>
+    </h1>
+    
+        
+            <a  class="header-right-icon st-search-show-outputs"
+                href="/#search">
+        
+                <i class="fa fa-lg fa-search"></i>
+            </a>
+    
+</header>
+            <nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                
+                    <img class="sidebar-profile-picture" src="/assets/images/cover.jpg"/>
+                
+            </a>
+            <span class="sidebar-profile-name">Sxiaojian的博客</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archive</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="/#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:sunxiaojian@sxiaojian.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            iOS实现曲线渐变
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Mon Nov 30 2015 18:04:52 GMT+0800">
+	
+		    11月 30, 2015
+    	
+    </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <h3 id="圆形渐变">圆形渐变</h3><p>最近产品提了一个需求，要求进度条的进度可以大于1。效果如下<br><img src="http://7xiyql.com1.z0.glb.clouddn.com/progress.gif" alt=""><br>效果图上卡，实际上并不卡。<br>在开始做之前，看了github上所有的progress相关的代码，发现并没有人实现过这样的效果。苹果apple watch应用实现了，但是不知道苹果是怎么实现的。<br>这个效果的难度就在于 曲线渐变 和 进度能大于1。<br>cocoa touch提供的api都是直线渐变。而进度可以大于1要求曲线的首和尾颜色不能想近，应该相差最大。<br><a href="http://blog.csdn.net/zhoutao198712/article/details/20864143" target="_blank" rel="external">iOS实现一个颜色渐变的弧形进度条</a><br>这篇文章实现了一个曲线渐变，但是这个无法实现进度条大于一。<br>最终要想实现曲线渐变只能自己实现了。  </p>
+<h4 id="颜色的生成">颜色的生成</h4><p>一共需要两个颜色，起始颜色和结束颜色。中间颜色的R、G、B值由progress线性生成。  </p>
+<pre><code>CGFloat ratio = <span class="list">(<span class="keyword">float</span>)</span>i / <span class="list">(<span class="keyword">float</span>)</span>sectors <span class="comment">;</span>
+CGFloat R = beginR + <span class="list">(<span class="keyword">endR</span> - beginR)</span> * ratio <span class="comment">;</span>
+CGFloat G = beginG + <span class="list">(<span class="keyword">endG</span> - beginG)</span> * ratio <span class="comment">;</span>
+CGFloat B = beginB + <span class="list">(<span class="keyword">endB</span> - beginB)</span> * ratio <span class="comment">;</span>
+</code></pre><h4 id="渐变的生成">渐变的生成</h4><p>由于apple提供的api都是直线的，我就采取了微分的思想，将一个圆分为无数份，然后每一份绘制一点颜色。最终就形成了曲线渐变。</p>
+<h4 id="最终的实现">最终的实现</h4><p>直接看代码吧。<a href="https://github.com/sxiaojian88/GradientProgressView.git" target="_blank" rel="external">demo在此</a></p>
+<h3 id="rounded矩形渐变">rounded矩形渐变</h3><p>这个动画的实现就更有难度了。</p>
+<p>动画由两个CAReplicatorLayer组成，一个完成前半部分，一个完成后半部份，两个layer的属性完全一致，仅仅是另外一个layer旋转了180度。最终效果是这样。<br><img src="http://7xiyql.com1.z0.glb.clouddn.com/roundedWaiting.gif" alt=""></p>
+<p>一个CAReplicatorLayer的动画是这样的<br><img src="http://7xiyql.com1.z0.glb.clouddn.com/roundedWaiting3.gif" alt=""><br>由于stroke end的取值是0-1，所以无法平滑的让stroke一直保持一样的长度。为了实现效果，我采取的方法是创建一个一样的CAReplicatorLayer并旋转180度。<br>于是效果变成了这样<br><img src="http://7xiyql.com1.z0.glb.clouddn.com/roundedWaiting2.gif" alt=""></p>
+<p>然后在这两个layer的superLayer添加mask，最终完成了要求的动画效果。<br>最难的是CAReplicatorLayer的创建，我创建了40个instance。</p>
+<pre><code>replicator.instanceCount       = 40<span class="comment">;</span>
+replicator.instanceDelay       = 0.01<span class="comment">;</span>
+replicator.instanceColor       = [UIColor colorWithRed:1 green: 0.373 blue:0 alpha:0.99].CGColor<span class="comment">;</span>
+replicator.instanceRedOffset   = 0.005<span class="comment">;</span>
+replicator.instanceGreenOffset = 0.005<span class="comment">;</span>
+replicator.instanceBlueOffset  = 0.005<span class="comment">;</span>
+replicator.instanceAlphaOffset = -0.03<span class="comment">;</span>
+replicator.instanceTransform   = CATransform3DIdentity<span class="comment">;</span>
+</code></pre><p>里面的参数都经过大量的试错与微调才调出这个效果。<br>更多细节请看代码<br><a href="https://github.com/sxiaojian88/RoundedRectWaiting" target="_blank" rel="external">RoundedRectWaiting</a></p>
+
+            
+                
+
+            
+        </div>
+    </div>
+    <div class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/iOS/">iOS</a> <a class="tag tag--primary tag--small t-link" href="/tags/动画/">动画</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/03/31/auto-layout-pass/"  data-tooltip="autolayout布局流程">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/11/11/gerrit-private-pod/" data-tooltip="在gerrit环境下创建私有Pods">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <span id="busuanzi_container_page_pv">
+  您是本文第<span id="busuanzi_value_page_pv"></span>位读者
+    </span>
+
+</div>
+
+
+        
+            <section id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-iOS-curve-gradient" data-title="iOS实现曲线渐变" data-url="http://sxiaojian.com/2015/11/30/iOS-curve-gradient/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'sxiaojian'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 Sxiaojian的博客. All Rights Reserved.
+    </span>
+</footer>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<span id="busuanzi_container_site_pv">
+    您是本站第<span id="busuanzi_value_site_pv"></span>位访问者
+</span>
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/03/31/auto-layout-pass/"  data-tooltip="autolayout布局流程">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/11/11/gerrit-private-pod/" data-tooltip="在gerrit环境下创建私有Pods">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <span id="busuanzi_container_page_pv">
+  您是本文第<span id="busuanzi_value_page_pv"></span>位读者
+    </span>
+
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://sxiaojian.com/2015/11/30/iOS-curve-gradient/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://sxiaojian.com/2015/11/30/iOS-curve-gradient/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://sxiaojian.com/2015/11/30/iOS-curve-gradient/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/cover.jpg"/>
+        
+            <h4 id="about-card-name">Sxiaojian的博客</h4>
+        
+            <h5 id="about-card-bio"><p>author.bio</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                beijing
+            </h5>
+        
+    </div>
+</div>
+
+        <div id="cover" style="background-image:url('http://res.cloudinary.com/tranquilpeak-hexo-theme/image/upload/v1438975482/v1.3.0-cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','JU4VTGEa8Wn5JfrKzHob','2.0.0');
+    </script>
+
+
+</html>
