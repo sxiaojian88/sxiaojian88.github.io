@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Sxiaojian">
-    <title>在terminal中使用shadowsocks - Sxiaojian</title>
+    <title>iOS如何获取系统蓝牙日志 - Sxiaojian</title>
     <meta name="author" content="Sxiaojian的博客">
     
         <link rel="icon" href="/assets/images/true">
@@ -14,46 +14,33 @@
     
         <link rel="alternative" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="安装proxifier使用proxifier。下载点我   
-注册用这个P427L-9Y552-5433E-8DSR3-58Z68  
-进入后配置好本地ip 127.0.0.1 和本地端口 1080 type为socks5 ，就可以使用了。  
-优点  
-
-自定义每个应用设置是否proxy
-自定义host是否proxy
-不影响浏览器是否全局
-查看当前连接
-
-推荐shadowsocks产品https">
+    <meta name="description" content="iOS10的日志系统，已经不再有单独的蓝牙日志文件了，日志信息被记录在system_logs.logarchive文件中，可以被Mac OS系统应用Console打开。下面就是iPhone与Apple Watch获取系统诊断日志的步骤：
+iPhone
+下载描述文件profile，安装在iOS设备上。
+如果提示重启则重启
+记录问题发生的日期时间
+出发系统诊断日志模式（同时按住音量加、音量减与电源键）">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="在terminal中使用shadowsocks">
-<meta property="og:url" content="http://sxiaojian.com/2016/07/04/terminal-shadowsocks/index.html">
+<meta property="og:title" content="iOS如何获取系统蓝牙日志">
+<meta property="og:url" content="http://sxiaojian.com/2017/05/12/How-to-get-iOS-system-Bluetooth-logs/index.html">
 <meta property="og:site_name" content="Sxiaojian">
-<meta property="og:description" content="安装proxifier使用proxifier。下载点我   
-注册用这个P427L-9Y552-5433E-8DSR3-58Z68  
-进入后配置好本地ip 127.0.0.1 和本地端口 1080 type为socks5 ，就可以使用了。  
-优点  
-
-自定义每个应用设置是否proxy
-自定义host是否proxy
-不影响浏览器是否全局
-查看当前连接
-
-推荐shadowsocks产品https">
-<meta property="og:updated_time" content="2016-07-04T05:38:19.000Z">
+<meta property="og:description" content="iOS10的日志系统，已经不再有单独的蓝牙日志文件了，日志信息被记录在system_logs.logarchive文件中，可以被Mac OS系统应用Console打开。下面就是iPhone与Apple Watch获取系统诊断日志的步骤：
+iPhone
+下载描述文件profile，安装在iOS设备上。
+如果提示重启则重启
+记录问题发生的日期时间
+出发系统诊断日志模式（同时按住音量加、音量减与电源键）">
+<meta property="og:image" content="http://7xiyql.com1.z0.glb.clouddn.com/Screen Shot 2017-05-12 at 5.18.41 PM.png">
+<meta property="og:image" content="http://7xiyql.com1.z0.glb.clouddn.com/Screen Shot 2017-05-12 at 5.27.34 PM.png">
+<meta property="og:updated_time" content="2017-05-12T10:43:35.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在terminal中使用shadowsocks">
-<meta name="twitter:description" content="安装proxifier使用proxifier。下载点我   
-注册用这个P427L-9Y552-5433E-8DSR3-58Z68  
-进入后配置好本地ip 127.0.0.1 和本地端口 1080 type为socks5 ，就可以使用了。  
-优点  
-
-自定义每个应用设置是否proxy
-自定义host是否proxy
-不影响浏览器是否全局
-查看当前连接
-
-推荐shadowsocks产品https">
+<meta name="twitter:title" content="iOS如何获取系统蓝牙日志">
+<meta name="twitter:description" content="iOS10的日志系统，已经不再有单独的蓝牙日志文件了，日志信息被记录在system_logs.logarchive文件中，可以被Mac OS系统应用Console打开。下面就是iPhone与Apple Watch获取系统诊断日志的步骤：
+iPhone
+下载描述文件profile，安装在iOS设备上。
+如果提示重启则重启
+记录问题发生的日期时间
+出发系统诊断日志模式（同时按住音量加、音量减与电源键）">
     
     
     
@@ -217,13 +204,13 @@ var _hmt = _hmt || [];
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            在terminal中使用shadowsocks
+            iOS如何获取系统蓝牙日志
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" content="Mon Jul 04 2016 13:37:49 GMT+0800">
+    <time itemprop="datePublished" content="Fri May 12 2017 18:02:04 GMT+0800">
 	
-		    7月 04, 2016
+		    5月 12, 2017
     	
     </time>
     
@@ -232,17 +219,31 @@ var _hmt = _hmt || [];
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <h2 id="安装proxifier">安装proxifier</h2><p>使用proxifier。<a href="https://www.proxifier.com/distr/ProxifierMac.zip" target="_blank" rel="external">下载点我</a>   </p>
-<p>注册用这个<code>P427L-9Y552-5433E-8DSR3-58Z68</code>  </p>
-<p>进入后配置好本地ip 127.0.0.1 和本地端口 1080 type为socks5 ，就可以使用了。  </p>
-<p>优点  </p>
-<ul>
-<li>自定义每个应用设置是否proxy</li>
-<li>自定义host是否proxy</li>
-<li>不影响浏览器是否全局</li>
-<li>查看当前连接</li>
-</ul>
-<p>推荐shadowsocks产品<br><a href="https://my.shadowsocksr.com/aff.php?aff=136" target="_blank" rel="external">https://my.shadowsocksr.com/aff.php?aff=136</a><br>目前正在用的ss服务商，速度很快。不喜欢推广链接的朋友可以去掉后缀</p>
+            <p>iOS10的日志系统，已经不再有单独的蓝牙日志文件了，日志信息被记录在<strong>system_logs.logarchive</strong>文件中，可以被Mac OS系统应用Console打开。下面就是iPhone与Apple Watch获取系统诊断日志的步骤：</p>
+<h2 id="iPhone">iPhone</h2><ol>
+<li>下载描述文件<a href="http://7xiyql.com1.z0.glb.clouddn.com/BluetoothWirelessProximity_iOS10.mobileconfig" target="_blank" rel="external">profile</a>，安装在iOS设备上。</li>
+<li>如果提示重启则重启</li>
+<li>记录问题发生的日期时间</li>
+<li>出发系统诊断日志模式（同时按住音量加、音量减与电源键），开启成功iPhone会有一个短的震动</li>
+<li>系统会收集诊断日志信息，需要等待十分钟左右完成</li>
+<li>用iTunes同步iPhone，同步完成后可以在下面路径找到日志文件。</li>
+</ol>
+<h2 id="Watch">Watch</h2><ol>
+<li>下载描述文件<a href="http://7xiyql.com1.z0.glb.clouddn.com/BluetoothWirelessProximity_iOS10.mobileconfig" target="_blank" rel="external">profile</a>，安装在iOS设备上。</li>
+<li>如果提示选择设备，选择Apple Watch</li>
+<li>重启Apple Watch，在Setting&gt;Logging中开启日志</li>
+<li>记录问题</li>
+<li>在iPhone中打开Watch app，Setting&gt;Logging，然后点Collect Logs（等待日志同步到iPhone）</li>
+<li>用iTunes同步iPhone，同步完成后可以在下面路径找到日志文件。</li>
+</ol>
+<h2 id="iPhone日志文件位置">iPhone日志文件位置</h2><p>macOS：<br><code>~/Library/Logs/CrashReporter/MobileDevice/[Your_Device_Name]/DiagnosticLogs/sysdiagnose</code></p>
+<p>Windows 8, 7, and Vista:<br><code>C:\Users\[Your_User_Name]\AppData\Roaming\Apple Computer\Logs\CrashReporter\MobileDevice\
+ [Your_Device_Name]\DiagnosticLogs\sysdiagnose</code></p>
+<h2 id="Watch日志文件位置">Watch日志文件位置</h2><p>macOS：<br><code>~/Library/Logs/CrashReporter/MobileDevice/[Your_Device_Name]/ProxiedDevice-[UUID]/</code></p>
+<p>Windows 8, 7, and Vista:<br><code>C:\Users\[Your_User_Name]\AppData\Roaming\Apple Computer\Logs\CrashReporter\MobileDevice\
+ [Your_Device_Name]\ProxiedDevice-[UUID]\</code></p>
+<h2 id="禁用日志">禁用日志</h2><p><strong>iphone</strong>：Settings General Profiles，点击蓝牙描述文件，移除然后重启<br><strong>AppleWatch</strong>：打开Watch app，下滑到Profiles，点击删除，然后重启</p>
+<p><img src="http://7xiyql.com1.z0.glb.clouddn.com/Screen Shot 2017-05-12 at 5.18.41 PM.png" alt="Screen Shot 2017-05-12 at 5.18.41 PM"><br><img src="http://7xiyql.com1.z0.glb.clouddn.com/Screen Shot 2017-05-12 at 5.27.34 PM.png" alt="Screen Shot 2017-05-12 at 5.27.34 PM"></p>
 
             
                 
@@ -252,12 +253,19 @@ var _hmt = _hmt || [];
     </div>
     <div class="post-footer main-content-wrap">
         
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/iOS/">iOS</a> <a class="tag tag--primary tag--small t-link" href="/tags/蓝牙/">蓝牙</a>
+
+            </div>
+        
         <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/07/05/hook-jingdong-iosapp/"  data-tooltip="hook京东iOS客户端">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -265,7 +273,7 @@ var _hmt = _hmt || [];
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/03/31/auto-layout-pass/" data-tooltip="autolayout布局流程">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/07/05/hook-jingdong-iosapp/" data-tooltip="hook京东iOS客户端">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -283,7 +291,7 @@ var _hmt = _hmt || [];
         
             <section id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="post-terminal-shadowsocks" data-title="在terminal中使用shadowsocks" data-url="http://sxiaojian.com/2016/07/04/terminal-shadowsocks/"></div>
+    <div class="ds-thread" data-thread-key="post-How-to-get-iOS-system-Bluetooth-logs" data-title="iOS如何获取系统蓝牙日志" data-url="http://sxiaojian.com/2017/05/12/How-to-get-iOS-system-Bluetooth-logs/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -323,7 +331,7 @@ var _hmt = _hmt || [];
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/07/05/hook-jingdong-iosapp/"  data-tooltip="hook京东iOS客户端">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -331,7 +339,7 @@ var _hmt = _hmt || [];
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/03/31/auto-layout-pass/" data-tooltip="autolayout布局流程">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/07/05/hook-jingdong-iosapp/" data-tooltip="hook京东iOS客户端">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -350,17 +358,17 @@ var _hmt = _hmt || [];
                 <div id="share-options-bar" class="share-options-bar" data-behavior="3">
     <ul class="share-options">
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://sxiaojian.com/2016/07/04/terminal-shadowsocks/">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://sxiaojian.com/2017/05/12/How-to-get-iOS-system-Bluetooth-logs/">
                 <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://sxiaojian.com/2016/07/04/terminal-shadowsocks/">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://sxiaojian.com/2017/05/12/How-to-get-iOS-system-Bluetooth-logs/">
                 <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://sxiaojian.com/2016/07/04/terminal-shadowsocks/">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://sxiaojian.com/2017/05/12/How-to-get-iOS-system-Bluetooth-logs/">
                 <i class="fa fa-twitter"></i><span>Share on Twitter</span>
             </a>
         </li>
